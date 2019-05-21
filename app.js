@@ -10,7 +10,7 @@ app.use(cors())
 // app.use(express.static(path.join(__dirname, './public')))
 
 
-mongoose.connect("mongodb://localhost:27017/interview-panel", {
+mongoose.connect("mongodb+srv://admin:12345@cluster0-jqe8z.mongodb.net/interview-panel?retryWrites=true", {
     useNewUrlParser: true
 }, () => {
     console.log("Connected to Mongodb at port 27017")
