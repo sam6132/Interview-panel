@@ -24,6 +24,6 @@ app.use("/api/user", user)
 
 
 
-app.listen(3000, () => {
-    console.log(`Listening to port ${"http://localhost:3000/"}`)
+app.listen(5000, () => {
+    console.log(`Listening to port ${"http://localhost:5000/"}`)
 })

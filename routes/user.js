@@ -66,14 +66,18 @@ router.post('/login', async (req, res) => {
                 msg: 'Wrong password'
             });
 
-        const token = jwt.sign(JSON.stringify(user), 'jwtPrivateKey');
+        const token = jwt.sign({
+            exp: Math.floor(Date.now() / 1000) + (60 * 60),
+            data: JSON.stringify(user)
+        }, 'jwtPrivateKey');
         res.header('x-auth', token).json({
             success: true,
             token: token,
             user: {
                 id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                role: user.role
             }
         });
     });
@@ -98,9 +102,10 @@ router.post('/register', async (req, res) => {
     }
 
     user = new users({
-        name: req.body.name,
+
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        role: req.body.role
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -111,7 +116,7 @@ router.post('/register', async (req, res) => {
         .then(result => {
             res.json({
                 success: true,
-                user: _.pick(result, ['name', 'email'])
+                user: _.pick(result, ['role', 'email'])
             });
         })
         .catch(err => {
@@ -157,9 +162,8 @@ function validateUser(user) {
             .min(5)
             .max(50)
             .required(),
-        password: Joi.string()
-            .min(5)
-            .max(50)
+        role: Joi.string()
+
             .required()
     };
 
