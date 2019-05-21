@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 const path = require('path');
 const user = require('./routes/user');
+const candidate = require('./routes/candidate')
 // const project = require('./routes/project');
 
 
@@ -19,6 +20,7 @@ mongoose.connect("mongodb+srv://admin:12345@cluster0-jqe8z.mongodb.net/interview
 })
 
 app.use("/api/user", user)
+app.use("/api/candidate", candidate)
 // app.use("/api/project", project)
 
 

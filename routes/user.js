@@ -5,7 +5,7 @@ const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
-const auth = require('../middleware/auth')
+// const auth = require('../middleware/auth')
 
 mongoose.set('useCreateIndex', true);
 const users = mongoose.model(
