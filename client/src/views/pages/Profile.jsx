@@ -1,57 +1,69 @@
-import React from 'react';
+// import React from 'react';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
-// reactstrap components
-import { Button, Card, Container, Row, Col } from 'reactstrap';
+//  class App extends Component {
+//      constructor(props) {
+//         super(props);
+//          this.state = {
+//              interviewdetails : []
+//         }
+//      }
+ 
 
-// core components
-import Nav from 'components/Navbars/Nav.jsx';
-import SimpleFooter from 'components/Footers/SimpleFooter.jsx';
 
-class Profile extends React.Component {
-	componentDidMount() {
-		document.documentElement.scrollTop = 0;
-		document.scrollingElement.scrollTop = 0;
-		this.refs.main.scrollTop = 0;
-	}
+//  componentDidMount() {
+//      fetch('url')
+//      .then(data => this.setState({interviewdetails : data }))
+//  }
+
+//  render() {
+//  	return(
+// 		<div>
+// <Table interviewdetails = {this.state.interviewdetails} />
+
+// 			</div>
+// 	)
+// }
+// }
+
+// export default Profile;
+
+
+import React, { Component } from 'react';
+
+class Table  extends React.Component {
 	render() {
-		return (
-			<div>
-				<Nav />
-				<main className="profile-page" ref="main">
-					<section className="section-profile-cover section-shaped my-0">
-						{/* Circles background */}
-						<div className="shape shape-style-1 shape-default alpha-4">
-							<span />
-							<span />
-							<span />
-							<span />
-							<span />
-							<span />
-							<span />
-						</div>
-						{/* SVG separator */}
-						<div className="separator separator-bottom separator-skew">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								preserveAspectRatio="none"
-								version="1.1"
-								viewBox="0 0 2560 100"
-								x="0"
-								y="0"
-							>
-								{/* <polygon className="fill-white" points="2560 0 2560 100 0 100" /> */}
-							</svg>
-						</div>
-					</section>
-					<section className="section">
-						<Container>
-							<Card className="card-profile shadow mt--500">ftuyiyhjxhsrwsrxfcgupg</Card>
-						</Container>
-					</section>
-				</main>
-			</div>
-		);
+	  return (
+		<table class="ui celled table">
+		<thead>
+		  <tr><th>Name</th>
+		  <th>Age</th>
+		  <th>Job</th>
+		</tr></thead>
+		<tbody>
+		  <tr>
+			<td data-label="Name">James</td>
+			<td data-label="Age">24</td>
+			<td data-label="Job">Engineer</td>
+		  </tr>
+		  <tr>
+			<td data-label="Name">Jill</td>
+			<td data-label="Age">26</td>
+			<td data-label="Job">Engineer</td>
+		  </tr>
+		  <tr>
+			<td data-label="Name">Elyse</td>
+			<td data-label="Age">24</td>
+			<td data-label="Job">Designer</td>
+		  </tr>
+		  <td>
+            <Link to={"/edit/"+this.props.obj._id} className="btn btn-primary">Edit</Link>
+          </td>
+          <td>
+            <button onClick={this.delete} className="btn btn-danger">Delete</button>
+          </td>
+		</tbody>
+	  </table>
+	  )
 	}
-}
-
-export default Profile;
+  }
