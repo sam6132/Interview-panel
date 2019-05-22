@@ -1,35 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const Joi = require('joi');
-const jwt = require('jsonwebtoken');
+
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
+const { users, genrateToken, validate } = require('../models/user.model');
 // const auth = require('../middleware/auth')
 
-mongoose.set('useCreateIndex', true);
-const users = mongoose.model(
-    'User',
-    new mongoose.Schema({
-        email: {
-            type: String,
-            required: true,
-            minlength: 5,
-            unique: true,
-            maxlength: 30
-        },
-        password: {
-            type: String,
-            required: true,
-
-        },
-        role: {
-            type: String,
-            required: true,
-
-        }
-    })
-);
 
 //Get all user
 router.get('/', async (req, res) => {
@@ -66,10 +42,7 @@ router.post('/login', async (req, res) => {
                 msg: 'Wrong password'
             });
 
-        const token = jwt.sign({
-            exp: Math.floor(Date.now() / 1000) + (60 * 60),
-            data: JSON.stringify(user)
-        }, 'jwtPrivateKey');
+        const token = genrateToken(user)
         res.header('x-auth', token).json({
             success: true,
             token: token,
@@ -87,7 +60,7 @@ router.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
     const {
         error
-    } = validateUser(req.body);
+    } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     let user = await users.findOne({
@@ -111,8 +84,7 @@ router.post('/register', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 
-    user
-        .save()
+    user.save()
         .then(result => {
             res.json({
                 success: true,
@@ -128,13 +100,14 @@ router.post('/register', async (req, res) => {
 });
 
 //update user
-router.put('/:id', async (req, res) => {
+router.put('/edit/:id', async (req, res) => {
     const user = await users.findByIdAndUpdate(req.params.id, req.body, {
         new: true
     });
 
     res.json({
         success: true,
+        user: _.pick(user, ['role', 'email']),
         message: 'Updated Sucessfully'
     });
 });
@@ -151,23 +124,5 @@ router.delete('/:id', async (req, res) => {
     });
 });
 
-// validate user object from front end
-function validateUser(user) {
-    const schema = {
-        name: Joi.string()
-            .min(5)
-            .max(50)
-            .required(),
-        email: Joi.string()
-            .min(5)
-            .max(50)
-            .required(),
-        role: Joi.string()
-
-            .required()
-    };
-
-    return Joi.validate(user, schema);
-}
 
 module.exports = router;
