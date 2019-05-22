@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 const { users, genrateToken, validate } = require('../models/user.model');
@@ -134,6 +133,11 @@ router.delete('/:id', async (req, res) => {
         message: 'Deleted Sucessfully'
     });
 });
+
+router.get('/logout', async (req, res) => {
+    blacklist.revoke(req.user)
+    res.sendStatus(200);
+})
 
 
 module.exports = router;

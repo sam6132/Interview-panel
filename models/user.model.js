@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 mongoose.set('useCreateIndex', true);
+const { JWTTOKEN } = require('../config');
 
 const userShema = new mongoose.Schema({
     email: {
@@ -9,7 +10,6 @@ const userShema = new mongoose.Schema({
         required: true,
         minlength: 5,
         unique: true,
-        maxlength: 30
     },
     password: {
         type: String,
@@ -32,7 +32,7 @@ function genrateToken(user) {
     const token = jwt.sign({
         exp: Math.floor(Date.now() / 1000) + (60 * 60),
         data: JSON.stringify(user)
-    }, 'jwtPrivateKey');
+    }, JWTTOKEN);
 
     return token;
 }

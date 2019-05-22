@@ -5,5 +5,5 @@ mongoose.promise = global.Promise;
 mongoose.connect("mongodb+srv://admin:12345@cluster0-jqe8z.mongodb.net/interview-panel?retryWrites=true", {
     useNewUrlParser: true
 }, () => {
-    console.log("Connected to Mongodb at port 27017")
+    console.log("Connected to Mongodb at atlas")
 })

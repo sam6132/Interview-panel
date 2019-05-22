@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 router.get('/confirmation/:token', async (req, res) => {
     const token = await Token.findOne({ token: req.params.token });
-    if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+    if (!token) return res.status(400).send('We were unable to find a valid token. Your token my have expired.');
 
     const user = await users.findById({ _id: token._userId });
     if (!user) return res.status(400).send('no such user register');
