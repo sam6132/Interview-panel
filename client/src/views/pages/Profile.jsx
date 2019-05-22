@@ -1,6 +1,7 @@
 // import React from 'react';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 //  class App extends Component {
 //      constructor(props) {
 //         super(props);
@@ -26,10 +27,11 @@
 // }
 // }
 
-// export default Profile;
+//
 
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 
 class Table  extends React.Component {
 	render() {
@@ -45,25 +47,35 @@ class Table  extends React.Component {
 			<td data-label="Name">James</td>
 			<td data-label="Age">24</td>
 			<td data-label="Job">Engineer</td>
+			<td>
+            <Link to={"/Edit"} className="btn btn-primary">Edit</Link>
+			</td>
+			<td>
+            <button onClick={this.delete} className="btn btn-danger">Delete</button>
+          </td>
 		  </tr>
 		  <tr>
 			<td data-label="Name">Jill</td>
 			<td data-label="Age">26</td>
 			<td data-label="Job">Engineer</td>
+			<td>
+            <Link to={"/Edit"} className="btn btn-primary">Edit</Link>
+			</td>
+			<td>
+            <button onClick={this.delete} className="btn btn-danger">Delete</button>
+          </td>
 		  </tr>
+
 		  <tr>
 			<td data-label="Name">Elyse</td>
 			<td data-label="Age">24</td>
 			<td data-label="Job">Designer</td>
 		  </tr>
-		  <td>
-            <Link to={"/edit/"+this.props.obj._id} className="btn btn-primary">Edit</Link>
-          </td>
-          <td>
-            <button onClick={this.delete} className="btn btn-danger">Delete</button>
-          </td>
+		  
+         
 		</tbody>
 	  </table>
 	  )
 	}
   }
+	export default Table;
