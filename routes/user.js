@@ -5,6 +5,9 @@ const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 const { users, genrateToken, validate } = require('../models/user.model');
 // const auth = require('../middleware/auth')
+const { sendMail } = require('../models/token.model');
+
+
 
 
 //Get all user
@@ -50,11 +53,13 @@ router.post('/login', async (req, res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                activated: user.activated
             }
         });
     });
 });
+
 
 //Register a user
 router.post('/register', async (req, res) => {
@@ -85,19 +90,25 @@ router.post('/register', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
 
     user.save()
-        .then(result => {
+        .then(async result => {
+
+
+            sendMail(req.headers.host, user)
             res.json({
                 success: true,
-                user: _.pick(result, ['role', 'email'])
+                user: _.pick(result, ['role', 'email', 'activated'])
             });
         })
         .catch(err => {
             res.json({
                 success: false,
-                user: 'Cannot create a Account'
+                user: 'Cannot create a Account',
+                err
             });
         });
 });
+
+
 
 //update user
 router.put('/edit/:id', async (req, res) => {
@@ -107,7 +118,7 @@ router.put('/edit/:id', async (req, res) => {
 
     res.json({
         success: true,
-        user: _.pick(user, ['role', 'email']),
+        user: _.pick(user, ['role', 'email', 'activated']),
         message: 'Updated Sucessfully'
     });
 });

@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 const { candidates } = require('../models/candidate.model');
 
 
 
 // bussiness router is express router
-router.route('/add').post(async (req, res) => {
+router.post('/add', auth, async (req, res) => {
 
 
     let candidate = await candidates.findOne({
@@ -34,7 +35,7 @@ router.route('/add').post(async (req, res) => {
 });
 
 // displaying get data 
-router.route('/').get(async (req, res) => {
+router.get('/', auth, async (req, res) => {
     const candidate = await candidates.find().sort('name');
     res.send(candidate);
 
@@ -43,7 +44,7 @@ router.route('/').get(async (req, res) => {
 
 
 // Define getbyid 
-router.route('/:id').get((req, res) => {
+router.get('/:id', auth, (req, res) => {
     let id = req.params.id;
     candidates.findById(id, (err, candidate) => {
         res.json({
@@ -56,7 +57,7 @@ router.route('/:id').get((req, res) => {
 
 
 
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id', auth, async (req, res) => {
     const candidate = await candidates.findOne({ _id: req.params.id });
 
     candidate.rounds.push(req.body)
@@ -84,7 +85,7 @@ router.put('/edit/:id', async (req, res) => {
 
 
 // defined the delete route 
-router.route('/delete/:id').get((req, res) => {
+router.get('/delete/:id', auth, (req, res) => {
     candidates.findByIdAndRemove({ _id: req.params.id }, (err, candidate) => {
         if (err) res.json(err);
         else res.json('Succesfully removed');

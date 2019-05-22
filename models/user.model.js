@@ -2,28 +2,31 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 mongoose.set('useCreateIndex', true);
-const users = mongoose.model(
-    'User',
-    new mongoose.Schema({
-        email: {
-            type: String,
-            required: true,
-            minlength: 5,
-            unique: true,
-            maxlength: 30
-        },
-        password: {
-            type: String,
-            required: true,
 
-        },
-        role: {
-            type: String,
-            required: true,
+const userShema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        minlength: 5,
+        unique: true,
+        maxlength: 30
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    role: {
+        type: String,
+        required: true,
+    },
+    activated: {
+        type: Boolean,
+        default: false
+    }
+});
 
-        }
-    })
-);
+
+const users = mongoose.model('User', userShema);
 
 function genrateToken(user) {
     const token = jwt.sign({
