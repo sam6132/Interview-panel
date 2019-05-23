@@ -28,7 +28,7 @@ export default class Edit extends Component {
 					name: res.data.candidate.name,
 					email: res.data.candidate.email,
 					number: res.data.candidate.number,
-					roundname: res.data.candidate.rounds
+					rounds: res.data.candidate.rounds
 					// comments: res.data.candidates.comments
 				});
 				console.log(res);
@@ -70,8 +70,8 @@ export default class Edit extends Component {
 			name: this.state.name,
 			email: this.state.email,
 			number: this.state.number,
-			rounds: this.state.roundname
-			// comments: this.state.comments
+			rounds: this.state.rounds,
+			comments: this.state.comments
 		};
 		console.log(obj);
 		axios

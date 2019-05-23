@@ -58,7 +58,7 @@ export default class Create extends Component {
 			comments: this.state.comments
 		};
 		axios
-			.post('http://localhost:5000/api/candidate/add', { obj })
+			.post('http://localhost:5000/api/candidate/add', obj)
 			.then(res => console.log(res.data))
 			.catch(error => {
 				console.log(error);
