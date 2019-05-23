@@ -1,81 +1,49 @@
-// import React from 'react';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
-
-//  class App extends Component {
-//      constructor(props) {
-//         super(props);
-//          this.state = {
-//              interviewdetails : []
-//         }
-//      }
- 
-
-
-//  componentDidMount() {
-//      fetch('url')
-//      .then(data => this.setState({interviewdetails : data }))
-//  }
-
-//  render() {
-//  	return(
-// 		<div>
-// <Table interviewdetails = {this.state.interviewdetails} />
-
-// 			</div>
-// 	)
-// }
-// }
-
-//
-
-
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import axios from 'axios';
+import TableRow from './TableRow';
 
-class Table  extends React.Component {
-	render() {
-	  return (
-		<table class="ui celled table">
-		<thead>
-		  <tr><th>Name</th>
-		  <th>Age</th>
-		  <th>Job</th>
-		</tr></thead>
-		<tbody>
-		  <tr>
-			<td data-label="Name">James</td>
-			<td data-label="Age">24</td>
-			<td data-label="Job">Engineer</td>
-			<td>
-            <Link to={"/Edit"} className="btn btn-primary">Edit</Link>
-			</td>
-			<td>
-            <button onClick={this.delete} className="btn btn-danger">Delete</button>
-          </td>
-		  </tr>
-		  <tr>
-			<td data-label="Name">Jill</td>
-			<td data-label="Age">26</td>
-			<td data-label="Job">Engineer</td>
-			<td>
-            <Link to={"/Edit"} className="btn btn-primary">Edit</Link>
-			</td>
-			<td>
-            <button onClick={this.delete} className="btn btn-danger">Delete</button>
-          </td>
-		  </tr>
-
-		  <tr>
-			<td data-label="Name">Elyse</td>
-			<td data-label="Age">24</td>
-			<td data-label="Job">Designer</td>
-		  </tr>
-		  
-         
-		</tbody>
-	  </table>
-	  )
+export default class Profile extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { interview: [] };
 	}
-  }
-	export default Table;
+
+	componentDidMount() {
+		axios
+			.get('http://localhost:5000/api/candidate/')
+			.then(response => {
+				this.setState({
+					interview: response.data
+				});
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}
+	tabRow() {
+		return this.state.interview.map((object, i) => {
+			return <TableRow obj={object} key={i} />;
+		});
+	}
+
+	render() {
+		return (
+			<div>
+				<h3 align="center">CandidateList</h3>
+				<table className="table table-striped" style={{ marginTop: 20 }}>
+					<thead>
+						<tr>
+							<th>PERSON</th>
+							<th>EMAIL</th>
+							<th>PHONENUMBER</th>
+							<th>ROUNDS</th>
+							<th>COMMENTS</th>
+							<th colSpan="2">Action</th>
+						</tr>
+					</thead>
+					<tbody>{this.tabRow()}</tbody>
+				</table>
+			</div>
+		);
+	}
+}

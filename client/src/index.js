@@ -8,8 +8,7 @@ import "assets/scss/argon-design-system-react.scss";
 
 import App from './App.jsx';
 ReactDOM.render(
-  <App />
-  ,
+  <App />,
   document.getElementById("root")
 );
 

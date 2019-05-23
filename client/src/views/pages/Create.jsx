@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-export default class Edit extends Component {
+export default class Create extends Component {
 	constructor(props) {
 		super(props);
 		this.onChangePersonName = this.onChangePersonName.bind(this);
@@ -14,31 +14,11 @@ export default class Edit extends Component {
 		this.state = {
 			name: '',
 			email: '',
-			number: '',
-			rounds: '',
+			phonenumber: '',
+			roundname: '',
 			comments: ''
 		};
 	}
-
-	componentDidMount() {
-		axios
-			.get('http://localhost:5000/api/candidate/edit/' + this.props.match.params.id)
-			.then(res => {
-				this.setState({
-					name: res.data.candidate.name,
-					email: res.data.candidate.email,
-					number: res.data.candidate.number,
-					roundname: res.data.candidate.rounds
-					// comments: res.data.candidates.comments
-				});
-				console.log(res);
-			})
-			.catch(function(error) {
-				console.log(error);
-			});
-		// this.props.history.push('/index');
-	}
-
 	onChangePersonName(e) {
 		this.setState({
 			name: e.target.value
@@ -51,43 +31,51 @@ export default class Edit extends Component {
 	}
 	onChangePhoneNumber(e) {
 		this.setState({
-			number: e.target.value
+			phonenumber: e.target.value
 		});
 	}
+
 	onChangeRoundName(e) {
 		this.setState({
-			rounds: e.target.value
+			roundname: e.target.value
 		});
 	}
+
 	onChangeComments(e) {
 		this.setState({
 			comments: e.target.value
 		});
 	}
+
 	onSubmit(e) {
 		e.preventDefault();
+		console.log(this.state);
 		const obj = {
 			name: this.state.name,
 			email: this.state.email,
-			number: this.state.number,
-			rounds: this.state.roundname
-			// comments: this.state.comments
+			number: this.state.phonenumber,
+			rounds: this.state.roundname,
+			comments: this.state.comments
 		};
-		console.log(obj);
 		axios
-			.post('http://localhost:5000/api/candidate/update/' + this.props.match.params.id, obj)
-			.then(res => console.log(res))
-			.catch(err => {
-				console.log(err);
+			.post('http://localhost:5000/api/candidate/add', { obj })
+			.then(res => console.log(res.data))
+			.catch(error => {
+				console.log(error);
 			});
-
-		this.props.history.push('/Profile');
+		this.setState({
+			name: '',
+			email: '',
+			phonenumber: '',
+			roundname: '',
+			comments: ''
+		});
 	}
 
 	render() {
 		return (
 			<div style={{ marginTop: 10 }}>
-				<h3 align="center">Update Candidate Details</h3>
+				<h3 align="center">Add Candidate Details</h3>
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
 						<label>Person Name: </label>
@@ -112,7 +100,7 @@ export default class Edit extends Component {
 						<input
 							type="text"
 							className="form-control"
-							value={this.state.number}
+							value={this.state.phonenumber}
 							onChange={this.onChangePhoneNumber}
 						/>
 					</div>
@@ -121,7 +109,7 @@ export default class Edit extends Component {
 						<input
 							type="text"
 							className="form-control"
-							value={this.state.rounds}
+							value={this.state.roundname}
 							onChange={this.onChangeRoundName}
 						/>
 					</div>
@@ -135,7 +123,7 @@ export default class Edit extends Component {
 						/>
 					</div>
 					<div className="form-group">
-						<input type="submit" value="Update persondetails" className="btn btn-primary" />
+						<input type="submit" value="User details" className="btn btn-primary" />
 					</div>
 				</form>
 			</div>
