@@ -20,6 +20,7 @@ class TableRow extends Component {
 			<tr>
 				<td>{this.props.obj.name}</td>
 				<td>{this.props.obj.email}</td>
+				<td>{this.props.obj.number}</td>
 				<td>{this.props.obj.rounds}</td>
 				<td>{this.props.obj.comments}</td>
 

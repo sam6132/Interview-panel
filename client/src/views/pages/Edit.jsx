@@ -73,12 +73,16 @@ export default class Edit extends Component {
 			rounds: this.state.rounds,
 			comments: this.state.comments
 		};
+		// we are trying the object here
 		console.log(obj);
+		// see what parms id is passing
+		console.log(this.props.match.params.id);
 		axios
 			.post('http://localhost:5000/api/candidate/update/' + this.props.match.params.id, obj)
+			// console.log(obj)
 			.then(res => console.log(res))
 			.catch(err => {
-				console.log(err);
+				console.log(err.msg);
 			});
 
 		this.props.history.push('/Profile');

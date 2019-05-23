@@ -15,7 +15,7 @@ export default class Create extends Component {
 			name: '',
 			email: '',
 			phonenumber: '',
-			roundname: '',
+			rounds: '',
 			comments: ''
 		};
 	}
@@ -37,7 +37,7 @@ export default class Create extends Component {
 
 	onChangeRoundName(e) {
 		this.setState({
-			roundname: e.target.value
+			rounds: e.target.value
 		});
 	}
 
@@ -54,7 +54,7 @@ export default class Create extends Component {
 			name: this.state.name,
 			email: this.state.email,
 			number: this.state.phonenumber,
-			rounds: this.state.roundname,
+			rounds: this.state.rounds,
 			comments: this.state.comments
 		};
 		axios
@@ -100,16 +100,16 @@ export default class Create extends Component {
 						<input
 							type="text"
 							className="form-control"
-							value={this.state.phonenumber}
-							onChange={this.onChangePhoneNumber}
-						/>
-					</div>
+							vacommentslue={this.state.phonenumber}
+							oncommentsChange={this.onChangePhoneNumber}
+						/>comments
+					</div>comments
 					<div className="form-group">
 						<label>Round Name: </label>
 						<input
 							type="text"
 							className="form-control"
-							value={this.state.roundname}
+							value={this.state.rounds}
 							onChange={this.onChangeRoundName}
 						/>
 					</div>
