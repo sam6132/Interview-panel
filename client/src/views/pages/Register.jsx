@@ -2,26 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // reactstrap components
-import {
-	Button,
-	Card,
-	CardHeader,
-	CardBody,
-	FormGroup,
-	Form,
-	Input,
-	Dropdown,
-	DropdownItem,
-	DropdownMenu,
-	UncontrolledDropdown,
-	DropdownToggle,
-	InputGroupAddon,
-	InputGroupText,
-	InputGroup,
-	Container,
-	Row,
-	Col
-} from 'reactstrap';
+import { FormGroup, Form, Input, InputGroupAddon, InputGroupText, InputGroup, Col } from 'reactstrap';
+import axios from 'axios';
 
 // core components
 import Header from 'components/Navbars/Nav.jsx';
@@ -35,12 +17,24 @@ class Register extends React.Component {
 	state = {
 		email: null,
 		password: null,
-		role: 'HR'
+		role: 'HR',
+		msg: null
 	};
 
 	register = e => {
 		e.preventDefault();
-		console.log(this.state);
+		let user = {
+			email: this.state.email,
+			password: this.state.password,
+			role: this.state.role
+		};
+		axios.post('http://localhost:5000/api/user/register', user).then(res => {
+			let data = res.data;
+			console.log(data);
+			if (data.success === false) return this.setState({ msg: data.message });
+
+			this.props.history.push('/');
+		});
 	};
 	render() {
 		return (
@@ -58,16 +52,22 @@ class Register extends React.Component {
 							<span />
 							<span />
 						</div>
-						<Container className="pt-lg-sm">
-							<Row className="justify-content-center">
-								<Col lg="5">
-									<Card className="bg-secondary shadow border-0">
-										<CardHeader className="bg-white pb-5">
+						<div className="container pt-lg-sm">
+							<div className="row justify-content-center">
+								<div className="col-lg-5" lg="5">
+									<div className="card bg-secondary shadow border-0">
+										<div className=" card-header bg-white pb-5">
 											<div className="text-center mb-2">
 												<h3>Register with credentials</h3>
 											</div>
-										</CardHeader>
-										<CardBody className="px-lg-5 py-lg-5">
+										</div>
+										<div className="card-body px-lg-5 py-lg-5">
+											{this.state.msg ? (
+												<div className="alert alert-danger text-center">{this.state.msg}</div>
+											) : (
+												''
+											)}
+
 											<Form role="form">
 												<FormGroup>
 													<InputGroup className="input-group-alternative mb-3">
@@ -99,6 +99,7 @@ class Register extends React.Component {
 												</FormGroup>
 												<FormGroup>
 													<select
+														className="input-group-alternative mb-3 custom-select"
 														value={this.state.role}
 														onChange={e => this.setState({ role: e.target.value })}
 													>
@@ -109,30 +110,28 @@ class Register extends React.Component {
 												</FormGroup>
 
 												<div className="text-center">
-													<Button
-														className="mt-4"
+													<button
+														className="btn btn-primary mt-4"
 														onClick={this.register}
 														color="primary"
 														type="button"
 													>
 														Create account
-													</Button>
+													</button>
 												</div>
 											</Form>
-										</CardBody>
-									</Card>
-									<Row className="mt-3">
+										</div>
+									</div>
+									<div className="row mt-3">
 										<Col className="text-center">
-											<Link to="/login">
-												<a className="text-light">
-													<small>Already have a account</small>
-												</a>
+											<Link to="/" className="text-light">
+												<small>Already have a account</small>
 											</Link>
 										</Col>
-									</Row>
-								</Col>
-							</Row>
-						</Container>
+									</div>
+								</div>
+							</div>
+						</div>
 					</section>
 				</main>
 			</div>

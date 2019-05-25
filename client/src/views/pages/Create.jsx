@@ -2,88 +2,54 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 export default class Create extends Component {
-	constructor(props) {
-		super(props);
-		this.onChangePersonName = this.onChangePersonName.bind(this);
-		this.onChangeEmail = this.onChangeEmail.bind(this);
-		this.onChangePhoneNumber = this.onChangePhoneNumber.bind(this);
-		this.onChangeRoundName = this.onChangeRoundName.bind(this);
-		this.onChangeComments = this.onChangeComments.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
+	state = {
+		name: '',
+		email: '',
+		number: '',
+		msg: null
+	};
 
-		this.state = {
-			name: '',
-			email: '',
-			phonenumber: '',
-			rounds: '',
-			comments: ''
-		};
-	}
-	onChangePersonName(e) {
-		this.setState({
-			name: e.target.value
-		});
-	}
-	onChangeEmail(e) {
-		this.setState({
-			email: e.target.value
-		});
-	}
-	onChangePhoneNumber(e) {
-		this.setState({
-			phonenumber: e.target.value
-		});
-	}
-
-	onChangeRoundName(e) {
-		this.setState({
-			rounds: e.target.value
-		});
-	}
-
-	onChangeComments(e) {
-		this.setState({
-			comments: e.target.value
-		});
-	}
-
-	onSubmit(e) {
+	onSubmit = e => {
 		e.preventDefault();
-		console.log(this.state);
-		const obj = {
+		let candidate = {
 			name: this.state.name,
 			email: this.state.email,
-			number: this.state.phonenumber,
-			rounds: this.state.rounds,
-			comments: this.state.comments
+			number: this.state.number
 		};
 		axios
-			.post('http://localhost:5000/api/candidate/add', obj)
-			.then(res => console.log(res.data))
+			.post('http://localhost:5000/api/candidate/add', candidate, {
+				headers: { 'x-auth': localStorage.getItem('token') }
+			})
+			.then(res => {
+				let data = res.data;
+				console.log(data);
+				if (data.success === false) return this.setState({ msg: data.message });
+			})
 			.catch(error => {
-				console.log(error);
+				this.setState({ msg: error });
 			});
 		this.setState({
 			name: '',
 			email: '',
-			phonenumber: '',
-			roundname: '',
-			comments: ''
+			number: ''
 		});
-	}
+	};
 
 	render() {
 		return (
-			<div style={{ marginTop: 10 }}>
-				<h3 align="center">Add Candidate Details</h3>
-				<form onSubmit={this.onSubmit}>
+			<div className="card bg-white sticky-top shadow border-10 ">
+				<h3 align="center" className="card-header">
+					Add Candidate Details
+				</h3>
+				<form onSubmit={this.onSubmit} className="card-body">
+					{this.state.msg ? <div className="alert alert-danger text-center">{this.state.msg}</div> : ''}
 					<div className="form-group">
 						<label>Person Name: </label>
 						<input
 							type="text"
 							className="form-control"
 							value={this.state.name}
-							onChange={this.onChangePersonName}
+							onChange={e => this.setState({ name: e.target.value })}
 						/>
 					</div>
 					<div className="form-group">
@@ -92,38 +58,21 @@ export default class Create extends Component {
 							type="text"
 							className="form-control"
 							value={this.state.email}
-							onChange={this.onChangeEmail}
+							onChange={e => this.setState({ email: e.target.value })}
 						/>
 					</div>
 					<div className="form-group">
-						<label>PhoneNumber: </label>
+						<label>Mobile Number: </label>
 						<input
 							type="text"
 							className="form-control"
-							vacommentslue={this.state.phonenumber}
-							oncommentsChange={this.onChangePhoneNumber}
-						/>comments
-					</div>comments
-					<div className="form-group">
-						<label>Round Name: </label>
-						<input
-							type="text"
-							className="form-control"
-							value={this.state.rounds}
-							onChange={this.onChangeRoundName}
+							value={this.state.number}
+							onChange={e => this.setState({ number: e.target.value })}
 						/>
 					</div>
-					<div className="form-group">
-						<label>Comments: </label>
-						<input
-							type="text"
-							className="form-control"
-							value={this.state.comments}
-							onChange={this.onChangeComments}
-						/>
-					</div>
-					<div className="form-group">
-						<input type="submit" value="User details" className="btn btn-primary" />
+
+					<div className="form-group text-center">
+						<input type="submit" value="Add Candidate" className="btn btn-primary" />
 					</div>
 				</form>
 			</div>

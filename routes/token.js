@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { users } = require('../models/user.model');
 const { Token } = require('../models/token.model');
+const _ = require('lodash');
 
 
 // const auth = require('../middleware/auth')
@@ -30,7 +31,19 @@ router.get('/confirmation/:token', async (req, res) => {
         user
     });
 })
+// get refresh tokens by user id
+router.get('/:id', async (req, res) => {
+    users.findOne({
+        _id: req.params.id
+    }).then(user => {
 
-
+        const tokens = user.refreshTokens.map(tok => {
+            return { id: tok._id, createdAt: tok.createdAt, ip: tok.ip }
+        })
+        return res.json({
+            tokens
+        })
+    });
+})
 
 module.exports = router;

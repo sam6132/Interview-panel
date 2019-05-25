@@ -1,0 +1,16 @@
+.header {
+	height: 60px;
+}
+
+.svg {
+	width: 50%;
+}
+.can-table {
+	min-height: 30% !important;
+}
+
+.info-model {
+	padding: 0;
+	padding-right: 5px;
+	padding-left: 5px;
+}

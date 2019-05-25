@@ -22,7 +22,9 @@ export default class Edit extends Component {
 
 	componentDidMount() {
 		axios
-			.get('http://localhost:5000/api/candidate/edit/' + this.props.match.params.id)
+			.get('http://localhost:5000/api/candidate/edit/' + this.props.match.params.id, {
+				headers: { 'x-auth': localStorage.getItem('token') }
+			})
 			.then(res => {
 				this.setState({
 					name: res.data.candidate.name,
@@ -78,7 +80,9 @@ export default class Edit extends Component {
 		// see what parms id is passing
 		console.log(this.props.match.params.id);
 		axios
-			.post('http://localhost:5000/api/candidate/update/' + this.props.match.params.id, obj)
+			.post('http://localhost:5000/api/candidate/update/' + this.props.match.params.id, obj, {
+				headers: { 'x-auth': localStorage.getItem('token') }
+			})
 			// console.log(obj)
 			.then(res => console.log(res))
 			.catch(err => {
@@ -90,7 +94,7 @@ export default class Edit extends Component {
 
 	render() {
 		return (
-			<div style={{ marginTop: 10 }}>
+			<div>
 				<h3 align="center">Update Candidate Details</h3>
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">

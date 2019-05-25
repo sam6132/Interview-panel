@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 // reactstrap components
 import {
@@ -7,7 +8,7 @@ import {
 	Card,
 	CardHeader,
 	CardBody,
-	FormGroup,
+	div,
 	Form,
 	Input,
 	InputGroupAddon,
@@ -23,8 +24,9 @@ import Header from 'components/Navbars/Nav.jsx';
 
 class Login extends React.Component {
 	state = {
-		email: null,
-		password: null
+		email: '',
+		password: '',
+		msg: null
 	};
 	componentDidMount() {
 		document.documentElement.scrollTop = 0;
@@ -34,7 +36,25 @@ class Login extends React.Component {
 
 	login = e => {
 		e.preventDefault();
-		console.log(this.state);
+		let user = {
+			email: this.state.email,
+			password: this.state.password
+		};
+		axios
+			.post('http://localhost:5000/api/user/login', user)
+			.then(res => {
+				let data = res.data;
+				console.log(data);
+				if (data.success === false) return this.setState({ msg: data.message });
+				localStorage.setItem('token', data.accessToken);
+				localStorage.setItem('refreshToken', data.refreshToken);
+				localStorage.setItem('user_id', data.user.id);
+
+				this.props.history.push('/profile');
+			})
+			.catch(err => {
+				return this.setState({ msg: err.message });
+			});
 	};
 	render() {
 		return (
@@ -52,18 +72,24 @@ class Login extends React.Component {
 							<span />
 							<span />
 						</div>
-						<Container className="pt-lg-sm">
-							<Row className="justify-content-center">
-								<Col lg="5">
-									<Card className="bg-secondary shadow border-0">
-										<CardHeader className="bg-white pb-5">
+						<div className="container pt-lg-sm">
+							<div className=" row justify-content-center">
+								<div className="col-lg-5">
+									<div className="card bg-secondary shadow border-0">
+										<div className=" card-header bg-white pb-5">
 											<div className="text-center mb-2">
 												<h3>Sign in with credentials</h3>
 											</div>
-										</CardHeader>
-										<CardBody className="px-lg-5 py-lg-5">
-											<Form role="form" onSubmit={this.login}>
-												<FormGroup className="mb-3">
+										</div>
+										<div className=" card-body px-lg-5 py-lg-5">
+											{this.state.msg ? (
+												<div className="alert alert-danger text-center">{this.state.msg}</div>
+											) : (
+												''
+											)}
+
+											<form className="form" role="form" onSubmit={this.login}>
+												<div className="mb-3 form-group">
 													<InputGroup className="input-group-alternative">
 														<InputGroupAddon addonType="prepend">
 															<InputGroupText>
@@ -76,8 +102,8 @@ class Login extends React.Component {
 															onChange={e => this.setState({ email: e.target.value })}
 														/>
 													</InputGroup>
-												</FormGroup>
-												<FormGroup>
+												</div>
+												<div className="form-group">
 													<InputGroup className="input-group-alternative">
 														<InputGroupAddon addonType="prepend">
 															<InputGroupText>
@@ -88,45 +114,35 @@ class Login extends React.Component {
 															placeholder="Password"
 															type="password"
 															autoComplete="off"
+															value={this.state.password}
 															onChange={e => this.setState({ password: e.target.value })}
 														/>
 													</InputGroup>
-												</FormGroup>
-												<div className="custom-control custom-control-alternative custom-checkbox">
-													<input
-														className="custom-control-input"
-														id=" customCheckLogin"
-														type="checkbox"
-													/>
-													<label className="custom-control-label" htmlFor=" customCheckLogin">
-														<span>Remember me</span>
-													</label>
 												</div>
+
 												<div className="text-center">
-													<Button
+													<button
 														onClick={this.login}
-														className="my-4"
+														className="btn btn-primary my-4"
 														color="primary"
 														type="button"
 													>
 														Sign in
-													</Button>
+													</button>
 												</div>
-											</Form>
-										</CardBody>
-									</Card>
-									<Row className="mt-3">
-										<Col className="text-center">
-											<Link to="/register">
-												<a className="text-light">
-													<small>Create new account</small>
-												</a>
+											</form>
+										</div>
+									</div>
+									<div className="row mt-3">
+										<div className="col text-center">
+											<Link to="/register" className="text-light">
+												<small>Create new account</small>
 											</Link>
-										</Col>
-									</Row>
-								</Col>
-							</Row>
-						</Container>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</section>
 				</main>
 			</div>
