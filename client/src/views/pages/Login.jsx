@@ -1,32 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 // reactstrap components
-import {
-	Button,
-	Card,
-	CardHeader,
-	CardBody,
-	FormGroup,
-	Form,
-	Input,
-	InputGroupAddon,
-	InputGroupText,
-	InputGroup,
-	Container,
-	Row,
-	Col
-} from 'reactstrap';
+import { Input, InputGroupAddon, InputGroupText, InputGroup } from 'reactstrap';
 
 // core components
 import Header from 'components/Navbars/Nav.jsx';
+import { login } from 'services/auth';
 
 class Login extends React.Component {
 	state = {
-		email: null,
-		password: null
+		email: '',
+		password: '',
+		msg: null,
+		loggingIn: false
 	};
 	componentDidMount() {
+		console.log(this.props.history);
 		document.documentElement.scrollTop = 0;
 		document.scrollingElement.scrollTop = 0;
 		this.refs.main.scrollTop = 0;
@@ -34,7 +25,25 @@ class Login extends React.Component {
 
 	login = e => {
 		e.preventDefault();
-		console.log(this.state);
+		this.setState({ loggingIn: true });
+		let user = {
+			email: this.state.email,
+			password: this.state.password
+		};
+		login(user)
+			.then(res => {
+				console.log(res.data);
+
+				let data = res.data;
+				if (data.success === false) return this.setState({ msg: data.message, loggingIn: false });
+				localStorage.setItem('token', data.accessToken);
+				localStorage.setItem('refreshToken', data.refreshToken);
+				localStorage.setItem('user_id', data.user.id);
+				this.props.history.push('/profile');
+			})
+			.catch(err => {
+				return this.setState({ msg: err.message, loggingIn: false });
+			});
 	};
 	render() {
 		return (
@@ -52,18 +61,24 @@ class Login extends React.Component {
 							<span />
 							<span />
 						</div>
-						<Container className="pt-lg-sm">
-							<Row className="justify-content-center">
-								<Col lg="5">
-									<Card className="bg-secondary shadow border-0">
-										<CardHeader className="bg-white pb-5">
+						<div className="container pt-lg-sm">
+							<div className=" row justify-content-center">
+								<div className="col-lg-5">
+									<div className="card bg-secondary shadow border-0">
+										<div className=" card-header bg-white pb-5">
 											<div className="text-center mb-2">
 												<h3>Sign in with credentials</h3>
 											</div>
-										</CardHeader>
-										<CardBody className="px-lg-5 py-lg-5">
-											<Form role="form" onSubmit={this.login}>
-												<FormGroup className="mb-3">
+										</div>
+										<div className=" card-body px-lg-5 py-lg-5">
+											{this.state.msg ? (
+												<div className="alert alert-danger text-center">{this.state.msg}</div>
+											) : (
+												''
+											)}
+
+											<form className="form" role="form" onSubmit={this.login}>
+												<div className="mb-3 form-group">
 													<InputGroup className="input-group-alternative">
 														<InputGroupAddon addonType="prepend">
 															<InputGroupText>
@@ -73,11 +88,15 @@ class Login extends React.Component {
 														<Input
 															placeholder="Email"
 															type="email"
+															aria-label="email"
+															aria-required="true"
+															name="email"
+															value={this.state.email}
 															onChange={e => this.setState({ email: e.target.value })}
 														/>
 													</InputGroup>
-												</FormGroup>
-												<FormGroup>
+												</div>
+												<div className="form-group">
 													<InputGroup className="input-group-alternative">
 														<InputGroupAddon addonType="prepend">
 															<InputGroupText>
@@ -88,45 +107,56 @@ class Login extends React.Component {
 															placeholder="Password"
 															type="password"
 															autoComplete="off"
+															aria-label="password"
+															aria-required="true"
+															name="password"
+															value={this.state.password}
 															onChange={e => this.setState({ password: e.target.value })}
 														/>
 													</InputGroup>
-												</FormGroup>
-												<div className="custom-control custom-control-alternative custom-checkbox">
-													<input
-														className="custom-control-input"
-														id=" customCheckLogin"
-														type="checkbox"
-													/>
-													<label className="custom-control-label" htmlFor=" customCheckLogin">
-														<span>Remember me</span>
-													</label>
 												</div>
+
 												<div className="text-center">
-													<Button
-														onClick={this.login}
-														className="my-4"
-														color="primary"
-														type="button"
-													>
-														Sign in
-													</Button>
+													{!this.state.loggingIn ? (
+														<button
+															onClick={this.login}
+															className="btn btn-primary my-4"
+															color="primary"
+															type="button"
+															aria-label="login"
+														>
+															Sign in
+														</button>
+													) : (
+														<button
+															className="btn btn-primary my-4"
+															type="button"
+															role="login"
+															aria-label="login"
+															disabled
+														>
+															<span
+																className="spinner-border spinner-border-sm"
+																role="status"
+																aria-hidden="true"
+															/>
+															Loading...
+														</button>
+													)}
 												</div>
-											</Form>
-										</CardBody>
-									</Card>
-									<Row className="mt-3">
-										<Col className="text-center">
-											<Link to="/register">
-												<a className="text-light">
-													<small>Create new account</small>
-												</a>
+											</form>
+										</div>
+									</div>
+									<div className="row mt-3">
+										<div className="col text-center">
+											<Link to="/register" className="text-light">
+												<small>Create new account</small>
 											</Link>
-										</Col>
-									</Row>
-								</Col>
-							</Row>
-						</Container>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</section>
 				</main>
 			</div>

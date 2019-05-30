@@ -2,49 +2,49 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Header from 'components/Navbars/Nav';
 import { editCandidate } from 'services/candidate';
-import loader from '../../assets/img/loading img/loader.gif';
-import Loading from 'components/Models/loadingModle';
-import 'assets/css/style.css';
+import { getReview } from 'services/review';
 
-export default class Edit extends Component {
+export default class EditReview extends Component {
 	state = {
-		name: '',
-		email: '',
-		number: 0,
+		title: '',
+		comment: '',
+		qualified: false,
 		loading: false
 	};
 
 	componentDidMount() {
-		// console.log(this.props);
-		editCandidate(this.props.match.params.id)
-			.then(res => {
-				this.setState({
-					name: res.data.candidate.name,
-					email: res.data.candidate.email,
-					number: res.data.candidate.number,
-					loading: true
-				});
-				// console.log(res);
-			})
-			.catch(function(error) {
-				console.log(error);
+		console.log(this.props.match.params);
+		// this.props.match.params.id
+		getReview(this.props.match.params.r_id).then(res => {
+			console.log(res);
+			console.log(res.data.qualified);
+			this.setState({
+				title: res.data.title,
+				comment: res.data.comment,
+				qualified: res.data.qualified,
+				loading: true
 			});
+		});
 	}
 
 	onSubmit = e => {
 		e.preventDefault();
+		this.setState({ loading: true });
 		const candidate = {
-			name: this.state.name,
-			email: this.state.email,
-			number: this.state.number
+			title: this.state.title,
+			comment: this.state.comment,
+			qualified: this.state.qualified
 		};
 
 		axios
-			.post('http://localhost:5000/api/candidate/update/' + this.props.match.params.id, candidate, {
+			.post(`http://localhost:5000/api/candidate/editReview/${this.props.match.params.r_id}`, candidate, {
 				headers: { 'x-auth': localStorage.getItem('token') }
 			})
 			// console.log(candidate)
-			.then(res => console.log(res))
+			.then(res => {
+				console.log(res);
+				this.setState({ loading: false });
+			})
 			.catch(err => {
 				console.log(err.msg);
 			});
@@ -74,18 +74,18 @@ export default class Edit extends Component {
 						</main>
 
 						<div className="container">
-							<h3 align="center">Update Candidate Details</h3>
+							<h3 align="center">Update Review for {}</h3>
 							<form onSubmit={this.onSubmit}>
 								<div className="form-group">
 									<label>Person Name: </label>
 									<input
 										type="text"
 										className="form-control"
-										value={this.state.name}
-										aria-label="name"
+										value={this.state.title}
+										aria-label="title"
 										aria-required="true"
-										name="name"
-										onChange={e => this.setState({ name: e.target.value })}
+										name="title"
+										onChange={e => this.setState({ title: e.target.value })}
 									/>
 								</div>
 								<div className="form-group">
@@ -93,24 +93,27 @@ export default class Edit extends Component {
 									<input
 										type="text"
 										className="form-control"
-										value={this.state.email}
-										aria-label="email"
+										value={this.state.comment}
+										aria-label="comment"
 										aria-required="true"
-										name="email"
-										onChange={e => this.setState({ email: e.target.value })}
+										name="comment"
+										onChange={e => this.setState({ comment: e.target.value })}
 									/>
 								</div>
-								<div className="form-group">
-									<label>PhoneNumber: </label>
+								<div className="custom-control custom-control-alternative custom-checkbox mb-sm">
 									<input
-										type="text"
-										className="form-control"
-										value={this.state.number}
-										aria-label="number"
-										aria-required="true"
-										name="number"
-										onChange={e => this.setState({ number: e.target.value })}
+										className="custom-control-input "
+										value={this.state.qualified}
+										checked={this.state.qualified}
+										onChange={e => {
+											this.setState({ qualified: e.target.checked });
+										}}
+										id=" customCheckLogin"
+										type="checkbox"
 									/>
+									<label className="custom-control-label" htmlFor=" customCheckLogin">
+										<span>Qualified</span>
+									</label>
 								</div>
 
 								<div className="form-group">

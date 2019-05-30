@@ -1,59 +1,40 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import CandidateTable from './CandidateTable';
+
 import TableRow from './TableRow';
+import Header from 'components/Navbars/Nav';
+
+import 'assets/css/style.css';
 import Create from './Create';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import  Header  from './Nav';
-
+import MaterialTable from './MaterialTable';
+import MaterialTableDemo from './MaterialTable';
 export default class Profile extends Component {
-	constructor(props) {
-		super(props);
-		this.state = { interview: [] };
-	}
-
-	componentDidMount() {
-		axios
-			.get('http://localhost:5000/api/candidate/')
-			.then(response => {
-				this.setState({
-					interview: response.data
-				});
-			})
-			.catch(error => {
-				console.log(error);
-			});
-	}
-	tabRow() {
-		return this.state.interview.map((object, i) => {
-			return <TableRow obj={object} key={i} />;
-		});
-	}
-
 	render() {
 		return (
 			<div>
-				<div>		
-				<Header/>	
-				</div>
-			   
-				<div className = "text-right primary center">
-				<button type="button" className="btn btn-outline-primary">get </button>
-				</div>
-				<h3 align="center">CandidateList</h3>
+				<Header />
+				<main className="header">
+					<section className="section section-shaped section-lg">
+						<div className="shape shape-style-1 bg-gradient-default">
+							<span />
+							<span />
+							<span />
+							<span />
+						</div>
+					</section>
+				</main>
 
-				<table className="table table-striped" style={{ marginTop: 20 }}>
-					<thead>
-						<tr>
-							<th>PERSON</th>
-							<th>EMAIL</th>
-							<th>PHONENUMBER</th>
-							<th>ROUNDS</th>
-							<th>COMMENTS</th>
-							<th colSpan="2">Action</th>
-						</tr>
-					</thead>
-					<tbody>{this.tabRow()}</tbody>
-				</table>
+				<div className="m-sm ">
+					<div className="row">
+						<div className="col-md-8 pb-sm">
+							{/* <TableRow /> */}
+							<MaterialTableDemo />
+						</div>
+						<div className="col-md-4">
+							<Create />
+						</div>
+					</div>
+				</div>
 			</div>
 		);
 	}

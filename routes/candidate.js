@@ -6,7 +6,7 @@ const { candidates } = require('../models/candidate.model');
 
 
 // bussiness router is express router
-router.post('/add', async (req, res) => {
+router.post('/add', auth, async (req, res) => {
 
 
     let candidate = await candidates.findOne({
@@ -29,14 +29,14 @@ router.post('/add', async (req, res) => {
         })
 
     }).catch(err => {
-        res.status(400).send("unable to save data to database")
+        res.status(400).send(err.message)
 
     })
 });
 
 // displaying get data 
-router.get('/', async (req, res) => {
-    const candidate = await candidates.find().sort('name');
+router.get('/', auth, async (req, res) => {
+    const candidate = await candidates.find();
     res.send(candidate);
 
 })
@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
 
 
 // Define getbyid 
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', auth, async (req, res) => {
     let id = req.params.id;
     candidates.findById(id, (err, candidate) => {
         res.json({
@@ -56,39 +56,64 @@ router.get('/edit/:id', async (req, res) => {
 
 // define update id 
 
-router.post('/update/:id', async (req, res) => {
-    candidates.findById(req.params.id, (err, can) => {
-        if (!can) {
-            res.status(404).send('data not found')
-        }
-        else {
-            can.name = req.body.name;
-            can.email = req.body.email;
-            can.number = req.body.number;
-            can.rounds = req.body.rounds;
-            can.comments = req.body.comments;
+router.post('/update/:id', auth, async (req, res) => {
+    const candidate = await candidates.findOne({ _id: req.params.id });
 
-            can.save().then(data => {
-                res.json('update complete')
-            })
-                .catch(err => {
-                    res.status(400).send(err.msg);
-                })
-        }
+    candidate.rounds.push(req.body)
 
-    });
+    try {
+        await candidate.save();
 
+        res.json({
+            success: true,
+            candidate,
+            message: 'Updated Sucessfully'
+        });
+    }
+    catch (err) {
+        res.json({
+            success: false,
+            message: 'Updated Failed' + err.messages
+        });
+    }
 
 });
+
+router.get('/getReview/:r_id', auth, async (req, res) => {
+
+    const r_id = req.params.r_id
+    const candidate = await candidates.findOne({ 'rounds': { $elemMatch: { _id: r_id } } });
+
+    // const review = await candidate.rounds.findOne({ _id: r_id })
+    res.send(candidate.rounds.id(r_id))
+})
+
+router.post('/editReview/:r_id', auth, async (req, res) => {
+    const r_id = req.params.r_id
+
+
+    console.log(req.body)
+    const candidate = await candidates.findOneAndUpdate({ 'rounds._id': r_id }, {
+        '$set': {
+            'rounds.$': req.body
+        }
+    })
+    await candidate.save()
+
+    res.send(candidate)
+})
 
 
 
 // defined the delete route 
-router.get('/delete/:id', (req, res) => {
-    candidates.findByIdAndRemove({ _id: req.params.id }, (err, candidate) => {
-        if (err) res.json(err);
-        else res.json('Succesfully removed');
-    })
+router.get('/delete/:id', auth, async (req, res) => {
+    await candidates.findOneAndRemove({ _id: req.params.id }, async (err, result) => {
+
+        res.send(result);
+    });
+
+
+
 })
 
 module.exports = router;

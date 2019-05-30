@@ -1,97 +1,119 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import 'assets/css/style.css';
+import { getCandidates } from 'services/candidate';
+import { getAccessToken } from 'services/auth';
+import Popover from 'components/Popover';
+import 'assets/css/style.css';
+import CandidateTable from './CandidateTable';
 class TableRow extends Component {
-	constructor(props) {
-		super(props);
-		this.delete = this.delete.bind(this);
-        this.handleMouseHover = this.handleMouseHover.bind(this);
-		this.state = {
-			isHovering : false ,
-			data : []
-		}
-	}
+	state = {
+		candidates: [],
+		infoModel: false,
+		addRoundModel: false,
+		candidate: null,
+		editable: false,
+		name: '',
+		email: '',
+		number: ''
+	};
 	componentDidMount() {
-		axios
-			.get('http://localhost:5000/api/candidate/')
+		this.getCandidates();
+	}
+	componentWillUnmount() {
+		clearInterval();
+	}
+	getCandidates() {
+		getCandidates()
 			.then(response => {
+				if (response.data.success === false) {
+					getAccessToken();
+					return;
+				}
 				this.setState({
-					data: response.data
+					candidates: response.data
 				});
 			})
 			.catch(error => {
 				console.log(error);
 			});
 	}
-	
-	
-	handleMouseHover() {
-		this.setState(this.toogleHoverState)
+	handleClick = e => {
+		this.setState({ editable: !this.state.editable });
+	};
+
+	tableContent() {
+		// return this.state.candidates.map((can, index) => {
+		// 	// if (this.state.editable) {
+		// 		return (
+		// <tr key={index} candidate={can} onDoubleClick={this.handleClick}>
+		// 	<td className="text-center">
+		// 		<input type="text" defaultValue={can.name} className="form-control" />
+		// 	</td>
+		// 	<td className="text-center">
+		// 		<input type="text" defaultValue={can.email} className="form-control" />
+		// 	</td>
+		// 	<td className="text-center">
+		// 		<input type="text" defaultValue={can.number} className="form-control" />
+		// 	</td>
+		// 	<td className="text-center">
+		// 		<div>
+		// 			<button className="btn btn-success">save</button>
+		// 		</div>
+		// 	</td>
+		// </tr>
+		// 	);
+		// } else {
+		// 	return (
+		// 		<tr key={index} candidate={can} onDoubleClick={this.handleClick}>
+		// 			<td className="text-center">{can.name}</td>
+		// 			<td className="text-center">{can.email}</td>
+		// 			<td className="text-center">{can.number}</td>
+		// 			<td className="text-center">
+		// 				<div>
+		// 					<Popover can={can} delete={this.delete} />
+		// 				</div>
+		// 			</td>
+		// 		</tr>
+		// 	);
+		// }
+		// });
 	}
 
-	toogleHoverState(state) {
-		return {
-			isHovering : !state.isHovering,
-		}
-	}
-
-	delete() {
+	delete = id => {
 		axios
-			.get('http://localhost:5000/api/candidate/delete/' + this.props.obj._id)
-			.then(console.log('DElETED'))
+			.get('http://localhost:5000/api/candidate/delete/' + id, {
+				headers: { 'x-auth': localStorage.getItem('token') }
+			})
+			.then(res => {
+				// let candidates = [res.data] ? [res.data] : [];
+				// console.log(candidates);
+				this.getCandidates();
+				// if (candidates) this.setState({ candidates: candidates });
+			})
 			.catch(err => console.log(err));
-	}
-	// onHover() {
-	// 	axios
-	// 	.get('http://localhost:5000/api/candidate/')
-
-	// 	.then(data => <div className="modal-dialog modal-lg"> data</div>)
-	// }
-
+	};
 
 	render() {
 		return (
-			
-			<div
-			onMouseEnter={this.handleMouseHover}
-			onMouseLeave={this.handleMouseHover}
-		  >
-		
-		
-			<tr> 
-				<td >{this.props.obj.name}</td>
-				<td >{this.props.obj.email}</td>
-				<td >{this.props.obj.number}</td>
-				<td>{this.props.obj.rounds}</td>
-				<td>{this.props.obj.comments}</td>
-
-				<td>
-					<Link to={'/edit/' + this.props.obj._id} className="btn btn-primary">
-						Edit
-					</Link>
-				</td>
-				<td>
-					<button onClick={this.delete} className="btn btn-danger">
-						Delete
-					</button>
-				</td>
-				{
-					this.state.isHovering &&
-					<td>
-						<div className="modal-dialog modal-lg"  id = "tablerow">
-					 	{this.state.data.map((values) => {
-							
-							<div className="modal-dialog modal-lg">
-							 {values.name}
-							</div>
-						 } )}
-						 </div>
-					</td>
-				}
-			</tr>
+			<div className="card bg-white  shadow  border-10 ">
+				<div className=" card-header  bg-secondary pb-2">
+					<div className="text-center mb-2">
+						<h3>Candidate's</h3>
+					</div>
+				</div>
+				{/* <table className="table table-hover table-sm  ">
+					<thead>
+						<tr>
+							<th className="text-center">Name</th>
+							<th className="text-center">Email</th>
+							<th className="text-center">Phone number</th>
+							<th className="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>{this.tableContent()}</tbody>
+				</table> */}
 			</div>
-
 		);
 	}
 }

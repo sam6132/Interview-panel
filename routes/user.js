@@ -2,12 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
-const { users, genrateToken, validate } = require('../models/user.model');
-// const auth = require('../middleware/auth')
+const { users, genrateToken, validate, genrateRefreshToken } = require('../models/user.model');
+const auth = require('../middleware/auth')
+const tokenVerification = require('../middleware/tokenVerification')
 const { sendMail } = require('../models/token.model');
-
-
-
+const ip = require("ip");
 
 //Get all user
 router.get('/', async (req, res) => {
@@ -26,34 +25,53 @@ router.get('/:id', async (req, res) => {
 
 //Login user by name
 router.post('/login', async (req, res) => {
+    console.log(req.body)
     const user = await users.findOne({
         email: req.body.email
     });
     if (!user)
         return res.json({
             success: false,
-            msg: 'User not found'
+            message: 'User not found'
         });
 
-    bcrypt.compare(req.body.password, user.password, (err, result) => {
+    if (!user.activated) return res.json({
+        success: false,
+        message: ' Account not activated, Check you mail for activation '
+    });
+    const accessToken = genrateToken(user._id)
+    const refreshToken = genrateRefreshToken(user.id)
+
+
+
+    await user.refreshTokens.push({
+        token: refreshToken,
+        ip: ip.address(),
+        createdAt: Date.now()
+    });
+
+    await user.save();
+
+    bcrypt.compare(req.body.password, user.password, async (err, result) => {
         if (err) throw err;
 
         if (!result)
             return res.json({
                 success: false,
-                msg: 'Wrong password'
+                message: 'Wrong password'
             });
 
-        const token = genrateToken(user)
-        res.header('x-auth', token).json({
+
+        res.header('x-auth', accessToken).json({
             success: true,
-            token: token,
+            accessToken,
+            refreshToken,
             user: {
                 id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
-                activated: user.activated
+                activated: user.activated,
             }
         });
     });
@@ -65,7 +83,10 @@ router.post('/register', async (req, res) => {
     const {
         error
     } = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.send({
+        success: false,
+        message: error.details[0].message
+    });
 
     let user = await users.findOne({
         email: req.body.email
@@ -95,7 +116,8 @@ router.post('/register', async (req, res) => {
             sendMail(req.headers.host, user)
             res.json({
                 success: true,
-                user: _.pick(result, ['role', 'email', 'activated'])
+                user: _.pick(result, ['role', 'email', 'activated']),
+                message: 'Account Created Successfully'
             });
         })
         .catch(err => {
@@ -105,6 +127,12 @@ router.post('/register', async (req, res) => {
                 err
             });
         });
+});
+
+
+router.get('/verify/:id&:token', [tokenVerification], async (req, res) => {
+    const token = genrateToken(req.params.id)
+    res.send(token)
 });
 
 
@@ -134,9 +162,38 @@ router.delete('/:id', async (req, res) => {
     });
 });
 
-router.get('/logout', async (req, res) => {
-    blacklist.revoke(req.user)
-    res.sendStatus(200);
+//delete refresh token  of user by user_id token_id 
+router.delete('/revoke/:id&:token_id', auth, async (req, res) => {
+    users.findOneAndUpdate({ _id: req.params.id }, { $pull: { refreshTokens: { _id: req.params.token_id } } }).then((user) => {
+
+        res.json({
+            success: true,
+            message: "Token revoked"
+        })
+    }).catch(err => {
+        res.json({
+            success: false,
+            message: err.message
+        })
+    })
+
+
+});
+
+
+router.get('/logout/:id&:token', async (req, res) => {
+    users.findOneAndUpdate({ _id: req.params.id }, { $pull: { refreshTokens: { token: req.params.token } } }).then((user) => {
+
+        res.json({
+            success: true,
+            message: "Logged out"
+        })
+    }).catch(err => {
+        res.json({
+            success: false,
+            message: err.message
+        })
+    })
 })
 
 
