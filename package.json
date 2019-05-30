@@ -21,6 +21,7 @@
 	"homepage": "https://github.com/sam6132/Interview-panel#readme",
 	"dependencies": {
 		"@material-ui/core": "^4.0.1",
+		"@material-ui/icons": "^4.0.1",
 		"bcrypt": "^3.0.6",
 		"bcryptjs": "^2.4.3",
 		"chai-http": "^4.3.0",

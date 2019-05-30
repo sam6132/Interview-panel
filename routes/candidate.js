@@ -57,9 +57,10 @@ router.get('/edit/:id', auth, async (req, res) => {
 // define update id 
 
 router.post('/update/:id', auth, async (req, res) => {
-    const candidate = await candidates.findOne({ _id: req.params.id });
+    const candidate = await candidates.findOneAndUpdate({ _id: req.params.id }, {
+        '$set': req.body
+    });
 
-    candidate.rounds.push(req.body)
 
     try {
         await candidate.save();
@@ -78,6 +79,30 @@ router.post('/update/:id', auth, async (req, res) => {
     }
 
 });
+
+router.post('/add-review/:id', auth, async (req, res) => {
+    const candidate = await candidates.findOne({ _id: req.params.id });
+
+    candidate.rounds.push(req.body);
+
+    try {
+        await candidate.save();
+
+        res.json({
+            success: true,
+            candidate,
+            message: 'Updated Sucessfully'
+        });
+    }
+    catch (err) {
+        res.json({
+            success: false,
+            message: 'Updated Failed' + err.messages
+        });
+    }
+
+
+})
 
 router.get('/getReview/:r_id', auth, async (req, res) => {
 
