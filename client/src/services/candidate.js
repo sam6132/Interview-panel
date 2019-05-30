@@ -21,5 +21,12 @@ export const editCandidate = (candidate_id) => {
     return axios.get(`${URI}/edit/${candidate_id}`, {
         headers: { 'x-auth': localStorage.getItem('token') }
     })
+}
 
+
+export const editCandidateById = (c_id, candidate) => {
+    return axios
+        .post(`http://localhost:5000/api/candidate/update/${c_id}`, candidate, {
+            headers: { 'x-auth': localStorage.getItem('token') }
+        })
 }

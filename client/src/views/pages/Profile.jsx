@@ -6,8 +6,8 @@ import Header from 'components/Navbars/Nav';
 
 import 'assets/css/style.css';
 import Create from './Create';
-import MaterialTable from './MaterialTable';
-import MaterialTableDemo from './MaterialTable';
+import EditableTable from './EditableTable';
+// import MaterialTable from './MaterialTable';
 export default class Profile extends Component {
 	render() {
 		return (
@@ -25,14 +25,16 @@ export default class Profile extends Component {
 				</main>
 
 				<div className="m-sm ">
-					<div className="row">
-						<div className="col-md-8 pb-sm">
+					<div className="">
+						<div className=" pb-sm">
 							{/* <TableRow /> */}
-							<MaterialTableDemo />
+							{/* <TableRow className="mb-md" />*/}
+							<CandidateTable {...this.props} />
+							{/* <EditableTable /> */}
 						</div>
-						<div className="col-md-4">
+						{/* <div className="col-md-4">
 							<Create />
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

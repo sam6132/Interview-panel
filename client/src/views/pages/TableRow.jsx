@@ -43,41 +43,20 @@ class TableRow extends Component {
 	};
 
 	tableContent() {
-		// return this.state.candidates.map((can, index) => {
-		// 	// if (this.state.editable) {
-		// 		return (
-		// <tr key={index} candidate={can} onDoubleClick={this.handleClick}>
-		// 	<td className="text-center">
-		// 		<input type="text" defaultValue={can.name} className="form-control" />
-		// 	</td>
-		// 	<td className="text-center">
-		// 		<input type="text" defaultValue={can.email} className="form-control" />
-		// 	</td>
-		// 	<td className="text-center">
-		// 		<input type="text" defaultValue={can.number} className="form-control" />
-		// 	</td>
-		// 	<td className="text-center">
-		// 		<div>
-		// 			<button className="btn btn-success">save</button>
-		// 		</div>
-		// 	</td>
-		// </tr>
-		// 	);
-		// } else {
-		// 	return (
-		// 		<tr key={index} candidate={can} onDoubleClick={this.handleClick}>
-		// 			<td className="text-center">{can.name}</td>
-		// 			<td className="text-center">{can.email}</td>
-		// 			<td className="text-center">{can.number}</td>
-		// 			<td className="text-center">
-		// 				<div>
-		// 					<Popover can={can} delete={this.delete} />
-		// 				</div>
-		// 			</td>
-		// 		</tr>
-		// 	);
-		// }
-		// });
+		return this.state.candidates.map((can, index) => {
+			return (
+				<tr key={index} candidate={can} onDoubleClick={this.handleClick}>
+					<td className="text-center">{can.name}</td>
+					<td className="text-center">{can.email}</td>
+					<td className="text-center">{can.number}</td>
+					<td className="text-center">
+						<div>
+							<Popover can={can} delete={this.delete} />
+						</div>
+					</td>
+				</tr>
+			);
+		});
 	}
 
 	delete = id => {
@@ -102,7 +81,7 @@ class TableRow extends Component {
 						<h3>Candidate's</h3>
 					</div>
 				</div>
-				{/* <table className="table table-hover table-sm  ">
+				<table className="table table-hover table-sm  ">
 					<thead>
 						<tr>
 							<th className="text-center">Name</th>
@@ -112,7 +91,7 @@ class TableRow extends Component {
 						</tr>
 					</thead>
 					<tbody>{this.tableContent()}</tbody>
-				</table> */}
+				</table>
 			</div>
 		);
 	}
