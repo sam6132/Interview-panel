@@ -74,14 +74,14 @@ export default class Create extends Component {
 
 	render() {
 		return (
-			<div style={{ marginTop: 10 }}>
+			<div style={{ marginTop: 10 }} className= "container">
 				<h3 align="center">Add Candidate Details</h3>
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
 						<label>Person Name: </label>
 						<input
 							type="text"
-							className="form-control"
+							className="form-control "
 							value={this.state.name}
 							onChange={this.onChangePersonName}
 						/>
@@ -102,8 +102,8 @@ export default class Create extends Component {
 							className="form-control"
 							vacommentslue={this.state.phonenumber}
 							oncommentsChange={this.onChangePhoneNumber}
-						/>comments
-					</div>comments
+						/>
+					</div>
 					<div className="form-group">
 						<label>Round Name: </label>
 						<input

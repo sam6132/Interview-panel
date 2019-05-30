@@ -33,7 +33,7 @@ class Header extends React.Component {
 			<div>
 				<header className="header-global">
 					<Navbar
-						className="navbar-main navbar-transparent navbar-light headroom"
+						className="navbar navbar-expand-lg navbar-light bg-light"
 						expand="lg"
 						id="navbar-main"
 					>
@@ -60,6 +60,13 @@ class Header extends React.Component {
 										</Col>
 										<Col className="collapse-close" xs="6">
 											<button className="navbar-toggler" id="navbar_global">
+												<span />
+												<span />
+											</button>
+										</Col>
+                                        <Col className="collapse-close" xs="6">
+											<button className="navbar-toggler" id="navbar_global">
+                                            <Link to = "/create"/>
 												<span />
 												<span />
 											</button>
