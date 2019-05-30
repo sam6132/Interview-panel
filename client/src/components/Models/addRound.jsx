@@ -31,7 +31,7 @@ export default class AddRoundModel extends Component {
 					title: '',
 					comment: '',
 					qualified: false,
-					addRoundModel: false
+					addRoundModel: true
 				});
 			})
 			.catch(err => {
@@ -46,8 +46,8 @@ export default class AddRoundModel extends Component {
 			<div>
 				<Modal
 					className="modal-dialog-centered"
-					isOpen={this.props.roundModel}
-					toggle={() => this.props.toggleModal('roundModel')}
+					isOpen={this.props.addRoundModel}
+					toggle={() => this.props.toggleModal('addRoundModel')}
 				>
 					<div className="modal-header">
 						<h6 className="modal-title" id="modal-title-default">
@@ -58,7 +58,7 @@ export default class AddRoundModel extends Component {
 							className="close"
 							data-dismiss="modal"
 							type="button"
-							onClick={() => this.props.toggleModal('roundModel')}
+							onClick={() => this.props.toggleModal('addRoundModel')}
 						>
 							<span aria-hidden={true}>×</span>
 						</button>
@@ -103,7 +103,7 @@ export default class AddRoundModel extends Component {
 							</div>
 							<div className="modal-footer">
 								<div className="form-group">
-									<input type="submit" value="Update persondetails" className="btn btn-primary" />
+									<input type="submit" value="Update Details" className="btn btn-primary" />
 								</div>
 							</div>
 						</form>

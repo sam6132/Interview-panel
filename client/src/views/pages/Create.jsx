@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { addCandidate } from 'services/candidate';
 
 export default class Create extends Component {
 	state = {
@@ -16,17 +17,14 @@ export default class Create extends Component {
 			email: this.state.email,
 			number: this.state.number
 		};
-		axios
-			.post('http://localhost:5000/api/candidate/add', candidate, {
-				headers: { 'x-auth': localStorage.getItem('token') }
-			})
+		addCandidate(candidate)
 			.then(res => {
 				let data = res.data;
 				console.log(data);
 				if (data.success === false) return this.setState({ msg: data.message });
 			})
 			.catch(error => {
-				this.setState({ msg: error });
+				this.setState({ msg: error.message });
 			});
 		this.setState({
 			name: '',
@@ -37,36 +35,45 @@ export default class Create extends Component {
 
 	render() {
 		return (
-			<div className="card bg-white sticky-top shadow border-10 ">
+			<div className="card bg-white shadow border-10 ">
 				<h3 align="center" className="card-header">
 					Add Candidate Details
 				</h3>
 				<form onSubmit={this.onSubmit} className="card-body">
 					{this.state.msg ? <div className="alert alert-danger text-center">{this.state.msg}</div> : ''}
 					<div className="form-group">
-						<label>Person Name: </label>
 						<input
+							placeholder=" name"
 							type="text"
 							className="form-control"
 							value={this.state.name}
+							aria-label="name"
+							aria-required="true"
+							name="name"
 							onChange={e => this.setState({ name: e.target.value })}
 						/>
 					</div>
 					<div className="form-group">
-						<label>Email: </label>
 						<input
+							placeholder=" Email"
 							type="text"
 							className="form-control"
 							value={this.state.email}
+							aria-label="email"
+							aria-required="true"
+							name="email"
 							onChange={e => this.setState({ email: e.target.value })}
 						/>
 					</div>
 					<div className="form-group">
-						<label>Mobile Number: </label>
 						<input
+							placeholder="Mobile number"
 							type="text"
 							className="form-control"
 							value={this.state.number}
+							aria-label="number"
+							aria-required="true"
+							name="number"
 							onChange={e => this.setState({ number: e.target.value })}
 						/>
 					</div>

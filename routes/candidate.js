@@ -36,7 +36,7 @@ router.post('/add', auth, async (req, res) => {
 
 // displaying get data 
 router.get('/', auth, async (req, res) => {
-    const candidate = await candidates.find().sort('name');
+    const candidate = await candidates.find();
     res.send(candidate);
 
 })
@@ -78,6 +78,30 @@ router.post('/update/:id', auth, async (req, res) => {
     }
 
 });
+
+router.get('/getReview/:r_id', auth, async (req, res) => {
+
+    const r_id = req.params.r_id
+    const candidate = await candidates.findOne({ 'rounds': { $elemMatch: { _id: r_id } } });
+
+    // const review = await candidate.rounds.findOne({ _id: r_id })
+    res.send(candidate.rounds.id(r_id))
+})
+
+router.post('/editReview/:r_id', auth, async (req, res) => {
+    const r_id = req.params.r_id
+
+
+    console.log(req.body)
+    const candidate = await candidates.findOneAndUpdate({ 'rounds._id': r_id }, {
+        '$set': {
+            'rounds.$': req.body
+        }
+    })
+    await candidate.save()
+
+    res.send(candidate)
+})
 
 
 

@@ -37,7 +37,7 @@ const userShema = new mongoose.Schema({
 const users = mongoose.model('User', userShema);
 
 function genrateToken(user) {
-    const token = jwt.sign({ data: JSON.stringify(user) }, JWTTOKEN, { expiresIn: '1hr' });
+    const token = jwt.sign({ data: JSON.stringify(user) }, JWTTOKEN, { expiresIn: '2hr' });
 
     return token;
 }

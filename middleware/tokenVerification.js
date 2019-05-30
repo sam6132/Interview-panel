@@ -8,6 +8,6 @@ module.exports = function (req, res, next) {
         if (user.refreshTokens.length > 0) {
             return next();
         }
-        return res.send('token blacklisted')
+        return res.status(401).send('token blacklisted')
     });
 }

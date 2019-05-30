@@ -3,32 +3,21 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 // reactstrap components
-import {
-	Button,
-	Card,
-	CardHeader,
-	CardBody,
-	div,
-	Form,
-	Input,
-	InputGroupAddon,
-	InputGroupText,
-	InputGroup,
-	Container,
-	Row,
-	Col
-} from 'reactstrap';
+import { Input, InputGroupAddon, InputGroupText, InputGroup } from 'reactstrap';
 
 // core components
 import Header from 'components/Navbars/Nav.jsx';
+import { login } from 'services/auth';
 
 class Login extends React.Component {
 	state = {
 		email: '',
 		password: '',
-		msg: null
+		msg: null,
+		loggingIn: false
 	};
 	componentDidMount() {
+		console.log(this.props.history);
 		document.documentElement.scrollTop = 0;
 		document.scrollingElement.scrollTop = 0;
 		this.refs.main.scrollTop = 0;
@@ -36,24 +25,24 @@ class Login extends React.Component {
 
 	login = e => {
 		e.preventDefault();
+		this.setState({ loggingIn: true });
 		let user = {
 			email: this.state.email,
 			password: this.state.password
 		};
-		axios
-			.post('http://localhost:5000/api/user/login', user)
+		login(user)
 			.then(res => {
+				console.log(res.data);
+
 				let data = res.data;
-				console.log(data);
-				if (data.success === false) return this.setState({ msg: data.message });
+				if (data.success === false) return this.setState({ msg: data.message, loggingIn: false });
 				localStorage.setItem('token', data.accessToken);
 				localStorage.setItem('refreshToken', data.refreshToken);
 				localStorage.setItem('user_id', data.user.id);
-
 				this.props.history.push('/profile');
 			})
 			.catch(err => {
-				return this.setState({ msg: err.message });
+				return this.setState({ msg: err.message, loggingIn: false });
 			});
 	};
 	render() {
@@ -99,6 +88,10 @@ class Login extends React.Component {
 														<Input
 															placeholder="Email"
 															type="email"
+															aria-label="email"
+															aria-required="true"
+															name="email"
+															value={this.state.email}
 															onChange={e => this.setState({ email: e.target.value })}
 														/>
 													</InputGroup>
@@ -114,6 +107,9 @@ class Login extends React.Component {
 															placeholder="Password"
 															type="password"
 															autoComplete="off"
+															aria-label="password"
+															aria-required="true"
+															name="password"
 															value={this.state.password}
 															onChange={e => this.setState({ password: e.target.value })}
 														/>
@@ -121,14 +117,32 @@ class Login extends React.Component {
 												</div>
 
 												<div className="text-center">
-													<button
-														onClick={this.login}
-														className="btn btn-primary my-4"
-														color="primary"
-														type="button"
-													>
-														Sign in
-													</button>
+													{!this.state.loggingIn ? (
+														<button
+															onClick={this.login}
+															className="btn btn-primary my-4"
+															color="primary"
+															type="button"
+															aria-label="login"
+														>
+															Sign in
+														</button>
+													) : (
+														<button
+															className="btn btn-primary my-4"
+															type="button"
+															role="login"
+															aria-label="login"
+															disabled
+														>
+															<span
+																className="spinner-border spinner-border-sm"
+																role="status"
+																aria-hidden="true"
+															/>
+															Loading...
+														</button>
+													)}
 												</div>
 											</form>
 										</div>

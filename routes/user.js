@@ -25,6 +25,7 @@ router.get('/:id', async (req, res) => {
 
 //Login user by name
 router.post('/login', async (req, res) => {
+    console.log(req.body)
     const user = await users.findOne({
         email: req.body.email
     });
@@ -129,11 +130,9 @@ router.post('/register', async (req, res) => {
 });
 
 
-router.get('/verify/:id&:token', [auth, tokenVerification], async (req, res) => {
+router.get('/verify/:id&:token', [tokenVerification], async (req, res) => {
     const token = genrateToken(req.params.id)
-    res.json({
-        token
-    })
+    res.send(token)
 });
 
 
@@ -163,6 +162,7 @@ router.delete('/:id', async (req, res) => {
     });
 });
 
+//delete refresh token  of user by user_id token_id 
 router.delete('/revoke/:id&:token_id', auth, async (req, res) => {
     users.findOneAndUpdate({ _id: req.params.id }, { $pull: { refreshTokens: { _id: req.params.token_id } } }).then((user) => {
 
@@ -180,22 +180,20 @@ router.delete('/revoke/:id&:token_id', auth, async (req, res) => {
 
 });
 
-// router.get('/verify/:id&:token_id', async (req, res) => {
-//     try {
-//         users.findOne({ _id: req.params.id }, { $elemMatch: { tokens: { _id: req.params.token_id } } }).then(user => {
-//             if (!user) return res.send("invalied token")
-//             return res.send(user)
-//         })
 
-//     } catch (err) {
-//         res.send(err.message)
-//     }
+router.get('/logout/:id&:token', async (req, res) => {
+    users.findOneAndUpdate({ _id: req.params.id }, { $pull: { refreshTokens: { token: req.params.token } } }).then((user) => {
 
-// })
-
-router.get('/logout', async (req, res) => {
-    blacklist.revoke(req.user)
-    res.sendStatus(200);
+        res.json({
+            success: true,
+            message: "Logged out"
+        })
+    }).catch(err => {
+        res.json({
+            success: false,
+            message: err.message
+        })
+    })
 })
 
 

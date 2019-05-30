@@ -7,6 +7,7 @@ import axios from 'axios';
 
 // core components
 import Header from 'components/Navbars/Nav.jsx';
+import { register } from 'services/auth';
 
 class Register extends React.Component {
 	componentDidMount() {
@@ -18,23 +19,29 @@ class Register extends React.Component {
 		email: null,
 		password: null,
 		role: 'HR',
-		msg: null
+		msg: null,
+		loggingIn: false
 	};
 
 	register = e => {
 		e.preventDefault();
+		this.setState({ loggingIn: true });
 		let user = {
 			email: this.state.email,
 			password: this.state.password,
 			role: this.state.role
 		};
-		axios.post('http://localhost:5000/api/user/register', user).then(res => {
-			let data = res.data;
-			console.log(data);
-			if (data.success === false) return this.setState({ msg: data.message });
+		register(user)
+			.then(res => {
+				let data = res.data;
+				console.log(data);
+				if (data.success === false) return this.setState({ msg: data.message, loggingIn: false });
 
-			this.props.history.push('/');
-		});
+				this.props.history.push('/');
+			})
+			.catch(err => {
+				return this.setState({ loggingIn: false });
+			});
 	};
 	render() {
 		return (
@@ -78,6 +85,9 @@ class Register extends React.Component {
 														</InputGroupAddon>
 														<Input
 															placeholder="Email"
+															aria-label="email"
+															aria-required="true"
+															name="email"
 															onChange={e => this.setState({ email: e.target.value })}
 															type="email"
 														/>
@@ -92,6 +102,9 @@ class Register extends React.Component {
 														</InputGroupAddon>
 														<Input
 															placeholder="Password"
+															aria-label="email"
+															aria-required="true"
+															name="email"
 															onChange={e => this.setState({ password: e.target.value })}
 															type="password"
 														/>
@@ -110,14 +123,29 @@ class Register extends React.Component {
 												</FormGroup>
 
 												<div className="text-center">
-													<button
-														className="btn btn-primary mt-4"
-														onClick={this.register}
-														color="primary"
-														type="button"
-													>
-														Create account
-													</button>
+													{!this.state.loggingIn ? (
+														<button
+															className="btn btn-primary mt-4"
+															onClick={this.register}
+															color="primary"
+															type="button"
+															role="register"
+															aria-label="register"
+														>
+															Create account
+														</button>
+													) : (
+														<button className="btn btn-primary my-4" type="button" disabled>
+															<span
+																className="spinner-border spinner-border-sm"
+																role="status"
+																aria-hidden="true"
+																role="register"
+																aria-label="register"
+															/>
+															Loading...
+														</button>
+													)}
 												</div>
 											</Form>
 										</div>
