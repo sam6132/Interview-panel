@@ -41,3 +41,5 @@ export default class Profile extends Component {
 		);
 	}
 }
+{/* <img  ref="image" src={http://media.licdn.com/dms/image/C560BAQEIOV9rnI_qmQ/company-logo_200_200/0?e=2159024400&v=beta&t=L__DJr6JencaOhdCm8y1zV5t4N_jITyuAOm7fDW4DQ0} />
+				</nav> */}

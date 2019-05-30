@@ -45,7 +45,7 @@ export default class Create extends Component {
 						<input
 							placeholder=" name"
 							type="text"
-							className="form-control"
+							className="form-control "
 							value={this.state.name}
 							aria-label="name"
 							aria-required="true"
