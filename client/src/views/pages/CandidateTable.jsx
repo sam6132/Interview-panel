@@ -49,7 +49,7 @@ export default class CandidateTable extends Component {
 
 	navEdit = (e, data) => {
 		console.log(data);
-		this.props.history.push(`/edit/${data._id}`);
+		this.props.history.push(`/edit/${data._id}`, data);
 	};
 
 	render() {
@@ -101,8 +101,8 @@ export default class CandidateTable extends Component {
 							setTimeout(() => {
 								resolve();
 								const data = [...this.state.candidates];
-								 data.splice(data.indexOf(oldData), 1);
-								 this.setState({ ...this.state, data });
+								data.splice(data.indexOf(oldData), 1);
+								this.setState({ ...this.state, data });
 							}, 600);
 						})
 				}}

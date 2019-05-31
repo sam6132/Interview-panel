@@ -63,3 +63,14 @@
 	font-size: 34px;
 	font-weight: 900px;
 }
+
+.candidate-detail {
+	height: 500px !important;
+}
+
+.review-card {
+	position: absolute !important;
+	top: 45%;
+	/* padding-left: 9px; */
+	width: 80% !important;
+}
