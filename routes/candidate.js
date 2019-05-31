@@ -83,6 +83,8 @@ router.post('/update/:id', auth, async (req, res) => {
 router.post('/add-review/:id', auth, async (req, res) => {
     const candidate = await candidates.findOne({ _id: req.params.id });
 
+    if(!candidate) return res.status(400).send('candidate not found')
+
     candidate.rounds.push(req.body);
 
     try {
@@ -143,6 +145,7 @@ router.get('/delete/:id', auth, async (req, res) => {
 
 })
 
+// get request 
 router.get('/getrounddetails/:id', async (req, res) => {
 
     try{
@@ -154,6 +157,17 @@ router.get('/getrounddetails/:id', async (req, res) => {
     }
     
     
+})
+
+// update round details 
+router.put('/updaterounddetails/:id',async(req,res) => {
+    try {
+    const candidate = await  candidates.findOneAndUpdate({_id :req.params.id})
+    res.send(candidate.rounds)
+     } catch(err){
+    res.send('operation not performed')
+
+}
 })
 
 // db.inventory.find( { tags: ["red", "blank"] } )

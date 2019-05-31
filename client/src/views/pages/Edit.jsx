@@ -29,21 +29,21 @@ export default class Edit extends Component {
 	render() {
 		return (
 			<div>
-				<Header />
+
 				{!this.state.loading ? (
 					<div className=" loader-container">
 						<div className="loader m-auto" />
 					</div>
-				) : (
-						<div className="container"><div className="bg-gradient-warning shadow-lg border-0 card mx-auto"><div className="p-5"><div className="align-items-center row"><div className="col-lg-8"><h3 className="text-white">Candidate details.</h3>
-							<p className="lead text-white mt-3"> <lable>Name:<br /></lable>{this.state.name}.</p>
-							<p className="lead text-white mt-3"><lable >Email:<br /></lable>{this.state.email}</p>
-							<p className="lead text-white mt-3"><lable >PhoneNumber:<br /></lable>{this.state.number}</p>
-							{/* <p className="lead text-white mt-3">{this.state.rounds}</p> */}
-						</div><div className="ml-lg-auto col-lg-3"><a href="#" className="btn-white btn btn-default btn-lg btn-block">performance</a></div></div></div></div></div>)}
-				<div className="card bg-white  shadow  border-10 ">
-					<div className=" card-header  bg-secondary pb-2">
-						<div className="text-center mb-2">
+				) : (  
+						<div class="container"><div class="bg-gradient-warning shadow-lg border-0 card mx-auto"><div class="p-5"><div class="align-items-center row"><div class="col-lg-8"><h3 class="text-white">Candidate details.</h3>
+							<p class="lead text-white mt-3"> <lable>Name:<br /></lable>{this.state.name}.</p>
+							<p class="lead text-white mt-3"><lable >Email:<br /></lable>{this.state.email}</p>
+							<p class="lead text-white mt-3"><lable >PhoneNumber:<br /></lable>{this.state.number}</p>
+							{/* <p class="lead text-white mt-3">{this.state.rounds}</p> */}
+						</div><div class="ml-lg-auto col-lg-3"><a href="#" class="btn-white btn btn-default btn-lg btn-block">performance</a></div></div></div></div></div>)}
+				<div class="card bg-white  shadow  border-10 ">
+					<div class=" card-header  bg-secondary pb-2">
+						<div class="text-center mb-2">
 							<h3>Candidate's performance</h3>
 						</div>
 					</div>

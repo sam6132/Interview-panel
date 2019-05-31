@@ -6,6 +6,7 @@ import { addCandidate } from 'services/candidate';
 import { editCandidateById } from 'services/candidate';
 import {editRounddetails} from 'services/candidate';
 import { getRoundDetailsByCandidateId } from 'services/candidate';
+ import { updateRoundDetailsByCandidateId } from 'services/candidate';
 
 const columns = [
 	{ title: 'round', field: 'title' },
@@ -39,10 +40,10 @@ export default class RoundDetailTable extends Component {
 				console.log(error);
 			});
 	};
-
+  // have to write put api 
 	// navEdit = (e, data) => {
 	// 	console.log(data);
-	// 	this.props.history.push(`/edit/${data._id}`);
+	// 	this.props.history.push(`/updateRoundDetailsByCandidateId/${data._id}`);
 	// };
 
 	render() {
@@ -62,7 +63,7 @@ export default class RoundDetailTable extends Component {
 										let data = res.data;
 										console.log(data);
 										if (data.success === false) return this.setState({ msg: data.message });
-										this.getRoundDetailsByCandidateId();
+										this.updateRoundDetailsByCandidateId();
 									})
 									.catch(error => {
 										this.setState({ msg: error.message });
@@ -77,13 +78,22 @@ export default class RoundDetailTable extends Component {
 								// console.log('new Candidate :', newData);
 								// console.log('old Candidate :', oldData);
 
-								editCandidateById(newData._id, newData)
-									.then(res => {
-										this.getCandidates();
-									})
-									.catch(err => {
-										console.log(err.msg);
-									});
+								// editCandidateById(newData._id, newData)
+								// 	.then(res => {
+								// 		console.log(res);
+								// 		console.log(this.props.candidate_id);
+								// 		this.updateRoundDetailsByCandidateId();
+								// 	})
+								// 	.catch(err => {
+								// 		console.log(err.msg);
+								// 	});
+								console.log(newData)
+								updateRoundDetailsByCandidateId(newData._id, newData).then(res=>{
+									console.log(res.data)
+									this.getReview()
+								}).catch(err=>{
+									console.log(err.message)
+								})
 							}, 600);
 						}),
 					onRowDataChange: data => {

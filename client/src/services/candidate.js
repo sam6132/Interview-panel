@@ -41,3 +41,13 @@ export const getRoundDetailsByCandidateId = async  (candidate_id) => {
         })
 
 }
+
+export const  updateRoundDetailsByCandidateId = async (candidate_id, review) => {
+    return  await axios 
+    .post(`http://localhost:5000/api/candidate/editReview/${candidate_id}`, review, {
+        headers: { 'x-auth': localStorage.getItem('token') }
+        
+    })
+
+}
+
