@@ -80,7 +80,7 @@ router.post('/update/:id', auth, async (req, res) => {
 
 });
 
-router.post('/add-review/:id', auth, async (req, res) => {
+router.post('/addReview/:id', auth, async (req, res) => {
     const candidate = await candidates.findOne({ _id: req.params.id });
 
     if(!candidate) return res.status(400).send('candidate not found')
