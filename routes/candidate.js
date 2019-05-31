@@ -44,7 +44,7 @@ router.get('/', auth, async (req, res) => {
 
 
 // Define getbyid 
-router.get('/edit/:id', auth, async (req, res) => {
+router.get('/edit/:id', async (req, res) => {
     let id = req.params.id;
     candidates.findById(id, (err, candidate) => {
         res.json({
@@ -104,6 +104,8 @@ router.post('/add-review/:id', auth, async (req, res) => {
 
 })
 
+// these is for getting by id 
+
 router.get('/getReview/:r_id', auth, async (req, res) => {
 
     const r_id = req.params.r_id
@@ -141,4 +143,23 @@ router.get('/delete/:id', auth, async (req, res) => {
 
 })
 
+router.get('/getrounddetails/:id', async (req, res) => {
+
+    try{
+        const candidate = await candidates.findOne({_id:req.params.id})
+
+    res.send(candidate.rounds)
+    }catch(err){
+        res.send('operation not performed')
+    }
+    
+    
+})
+
+// db.inventory.find( { tags: ["red", "blank"] } )
+
 module.exports = router;
+
+// i will be using getgetbyid to get the details 
+
+// localhost:3000/getrounddetails/5ce8efa7e63c5a2ec622683a

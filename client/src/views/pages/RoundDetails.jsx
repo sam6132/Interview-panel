@@ -4,60 +4,53 @@ import { getCandidates } from 'services/candidate';
 import { getAccessToken } from 'services/auth';
 import { addCandidate } from 'services/candidate';
 import { editCandidateById } from 'services/candidate';
+import {editRounddetails} from 'services/candidate';
+import { getRoundDetailsByCandidateId } from 'services/candidate';
+
 const columns = [
-	{ title: 'Name', field: 'name' },
-	{ title: 'Email', field: 'email' },
-	{ title: 'Number', field: 'number', type: 'numeric' }
-	// {
-	// 	title: 'Birth Place',
-	// 	field: 'birthCity',
-	// 	lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' }
-	// }
+	{ title: 'round', field: 'title' },
+	{ title: 'comment', field: 'comment' },
+	{ title: 'qualified', field: 'qualified', }
 ];
 
-export default class CandidateTable extends Component {
+export default class RoundDetailTable extends Component {
 	state = {
-		candidates: []
-		// infoModel: false,
-		// addRoundModel: false,
-		// candidate: null
+		rounddetails: [],
+		candidate_id:''
 	};
 
 	componentDidMount() {
-		this.getCandidates();
+
+		this.getReview();
 	}
 
-	getCandidates = () => {
-		console.log(this.props);
+	getReview = async () => {
+		console.log("we are printhing props");
+		console.log(this.props.candidate_id);
 
-		getCandidates()
+		// await this.setState({candidate_id : this.props.candidate_id})
+
+		await getRoundDetailsByCandidateId(this.props.candidate_id)
 			.then(response => {
-				if (response.data.success === false) {
-					getAccessToken();
-					return;
-				}
-				// console.log(response.data);
-				this.setState({
-					candidates: response.data
-				});
-				// console.log(this.state.candidates);
+				console.log(response.data)
+				this.setState({rounddetails:response.data})
 			})
 			.catch(error => {
 				console.log(error);
 			});
 	};
 
-	navEdit = (e, data) => {
-		console.log(data);
-		this.props.history.push(`/edit/${data._id}`);
-	};
+	// navEdit = (e, data) => {
+	// 	console.log(data);
+	// 	this.props.history.push(`/edit/${data._id}`);
+	// };
 
 	render() {
 		return (
 			<MaterialTable
-				title="Candidates List"
+				title="Rounds List"
 				columns={columns}
-				data={this.state.candidates}
+				data={this.state.rounddetails}
 				onRowClick={this.navEdit}
 				editable={{
 					onRowAdd: newData =>
@@ -69,7 +62,7 @@ export default class CandidateTable extends Component {
 										let data = res.data;
 										console.log(data);
 										if (data.success === false) return this.setState({ msg: data.message });
-										this.getCandidates();
+										this.getRoundDetailsByCandidateId();
 									})
 									.catch(error => {
 										this.setState({ msg: error.message });
