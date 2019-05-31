@@ -30,3 +30,14 @@ export const editCandidateById = (c_id, candidate) => {
             headers: { 'x-auth': localStorage.getItem('token') }
         })
 }
+
+// write a url to get round details 
+
+
+export const getRoundDetailsByCandidateId = async  (candidate_id) => {
+    return await axios
+        .get(`http://localhost:5000/api/candidate/getrounddetails/${candidate_id}`, {
+            headers: { 'x-auth': localStorage.getItem('token') }
+        })
+
+}

@@ -1,125 +1,68 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Header from 'components/Navbars/Nav';
+
 import { editCandidate } from 'services/candidate';
 import loader from '../../assets/img/loading img/loader.gif';
 import Loading from 'components/Models/loadingModle';
 import 'assets/css/style.css';
+import RoundDetailTable from './RoundDetails';
 
 export default class Edit extends Component {
 	state = {
-		name: '',
-		email: '',
-		number: 0,
-		loading: false
+		candidates: [],
+		// infoModel: false,
+		// addRoundModel: false,
+		candidate_id: ''
 	};
 
 	componentDidMount() {
-		// console.log(this.props);
-		editCandidate(this.props.match.params.id)
-			.then(res => {
-				this.setState({
-					name: res.data.candidate.name,
-					email: res.data.candidate.email,
-					number: res.data.candidate.number,
-					loading: true
-				});
-				// console.log(res);
-			})
-			.catch(function(error) {
-				console.log(error);
-			});
+		console.log("we are printing the id");
+		console.log(this.props.match.params.id);
+		this.setState({candidate_id :this.props.match.params.id})
+		console.log("we are checking after the state is set")
+		console.log(this.state.candidate_id)
 	}
 
-	onSubmit = e => {
-		e.preventDefault();
-		const candidate = {
-			name: this.state.name,
-			email: this.state.email,
-			number: this.state.number
-		};
 
-		axios
-			.post('http://localhost:5000/api/candidate/update/' + this.props.match.params.id, candidate, {
-				headers: { 'x-auth': localStorage.getItem('token') }
-			})
-			// console.log(candidate)
-			.then(res => console.log(res))
-			.catch(err => {
-				console.log(err.msg);
-			});
-
-		this.props.history.push('/Profile');
-	};
 
 	render() {
 		return (
 			<div>
+				<Header />
 				{!this.state.loading ? (
 					<div className=" loader-container">
 						<div className="loader m-auto" />
 					</div>
 				) : (
-					<div>
-						<Header />
-						<main className="header">
-							<section className="section section-shaped section-lg">
-								<div className="shape shape-style-1 bg-gradient-default">
-									<span />
-									<span />
-									<span />
-									<span />
-								</div>
-							</section>
-						</main>
-
-						<div className="container">
-							<h3 align="center">Update Candidate Details</h3>
-							<form onSubmit={this.onSubmit}>
-								<div className="form-group">
-									<label>Person Name: </label>
-									<input
-										type="text"
-										className="form-control"
-										value={this.state.name}
-										aria-label="name"
-										aria-required="true"
-										name="name"
-										onChange={e => this.setState({ name: e.target.value })}
-									/>
-								</div>
-								<div className="form-group">
-									<label>Email: </label>
-									<input
-										type="text"
-										className="form-control"
-										value={this.state.email}
-										aria-label="email"
-										aria-required="true"
-										name="email"
-										onChange={e => this.setState({ email: e.target.value })}
-									/>
-								</div>
-								<div className="form-group">
-									<label>PhoneNumber: </label>
-									<input
-										type="text"
-										className="form-control"
-										value={this.state.number}
-										aria-label="number"
-										aria-required="true"
-										name="number"
-										onChange={e => this.setState({ number: e.target.value })}
-									/>
-								</div>
-
-								<div className="form-group">
-									<input type="submit" value="Update persondetails" className="btn btn-primary" />
-								</div>
-							</form>
+						<div className="container"><div className="bg-gradient-warning shadow-lg border-0 card mx-auto"><div className="p-5"><div className="align-items-center row"><div className="col-lg-8"><h3 className="text-white">Candidate details.</h3>
+							<p className="lead text-white mt-3"> <lable>Name:<br /></lable>{this.state.name}.</p>
+							<p className="lead text-white mt-3"><lable >Email:<br /></lable>{this.state.email}</p>
+							<p className="lead text-white mt-3"><lable >PhoneNumber:<br /></lable>{this.state.number}</p>
+							{/* <p className="lead text-white mt-3">{this.state.rounds}</p> */}
+						</div><div className="ml-lg-auto col-lg-3"><a href="#" className="btn-white btn btn-default btn-lg btn-block">performance</a></div></div></div></div></div>)}
+				<div className="card bg-white  shadow  border-10 ">
+					<div className=" card-header  bg-secondary pb-2">
+						<div className="text-center mb-2">
+							<h3>Candidate's performance</h3>
 						</div>
 					</div>
-				)}
+
+					<div className="m-sm ">
+						<div className="">
+							<div className=" pb-sm">
+								{/* <TableRow /> */}
+								{/* <TableRow className="mb-md" />*/}
+								<RoundDetailTable candidate_id={this.props.match.params.id} />
+								{/* <EditableTable /> */}
+							</div>
+							{/* <div className="col-md-4">
+							<Create />
+						</div> */}
+						</div>
+					</div>
+
+				</div>
 			</div>
 		);
 	}
