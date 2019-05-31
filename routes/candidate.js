@@ -80,7 +80,7 @@ router.post('/update/:id', auth, async (req, res) => {
 
 });
 
-router.post('/add-review/:id', auth, async (req, res) => {
+router.post('/addReview/:id', auth, async (req, res) => {
     const candidate = await candidates.findOne({ _id: req.params.id });
 
     candidate.rounds.push(req.body);
