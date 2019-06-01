@@ -67,5 +67,4 @@ export const deleteCandidateById = async (candidate_id) => {
         .delete(`http://localhost:5000/api/candidate/delete/${candidate_id}`, {
             headers: { 'x-auth': localStorage.getItem('token') }
 
-        })
-}
+        }
