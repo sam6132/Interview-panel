@@ -55,29 +55,9 @@ export default class Edit extends Component {
 							</div>
 						</div>
 						<div className="container">
-							<div className="card review-card bg-white  shadow  border-10 ">
-								<div className=" card-header  bg-secondary pb-2">
-									<div className="text-center mb-2">
-										<h3>Candidate's performance</h3>
-									</div>
-								</div>
-
-								<div className="m-sm ">
-									<div className="">
-										<div className=" pb-sm">
-											{/* <TableRow /> */}
-											{/* <TableRow className="mb-md" />*/}
-											<RoundDetailTable
-												className="review-card"
-												candidate_id={this.props.match.params.id}
-											/>
-											{/* <EditableTable /> */}
-										</div>
-										{/* <div className="col-md-4">
-							<Create />
-						</div> */}
-									</div>
-								</div>
+							<div className="review-card bg-primary  shadow  border-10 ">
+								<RoundDetailTable className="mb-lg" candidate_id={this.props.match.params.id} />
+								{/* <EditableTable /> */}
 							</div>
 						</div>
 					</div>
