@@ -34,7 +34,7 @@ export const editCandidateById = (c_id, candidate) => {
 // write a url to get round details 
 
 
-export const getRoundDetailsByCandidateId = async  (candidate_id) => {
+export const getRoundDetailsByCandidateId = async (candidate_id) => {
     return await axios
         .get(`http://localhost:5000/api/candidate/getrounddetails/${candidate_id}`, {
             headers: { 'x-auth': localStorage.getItem('token') }
@@ -42,7 +42,6 @@ export const getRoundDetailsByCandidateId = async  (candidate_id) => {
 
 }
 
-<<<<<<< HEAD
 export const updateRoundDetailsByCandidateId = async (candidate_id, review) => {
     return await axios
         .post(`http://localhost:5000/api/candidate/editReview/${candidate_id}`, review, {
@@ -67,13 +66,6 @@ export const deleteCandidateById = async (candidate_id) => {
     return await axios
         .delete(`http://localhost:5000/api/candidate/delete/${candidate_id}`, {
             headers: { 'x-auth': localStorage.getItem('token') }
-=======
-export const  updateRoundDetailsByCandidateId = async (candidate_id, review) => {
-    return  await axios 
-    .post(`http://localhost:5000/api/candidate/editReview/${candidate_id}`, review, {
-        headers: { 'x-auth': localStorage.getItem('token') }
-        
-    })
->>>>>>> parent of 222c474... added status for candidate
 
+        })
 }
