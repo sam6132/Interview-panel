@@ -49,15 +49,18 @@ export const updateRoundDetailsByCandidateId = async (candidate_id, review) => {
 
         })
 
- }
+}
 
 // we have to write a api to add round details 
 
-export const addrounds = async (id,rounds) => {
+export const addrounds = async (id, rounds) => {
     return axios
         .post(`${URI}/addReview/${id}`, rounds, {
             headers: { 'x-auth': localStorage.getItem('token') }
         })
+
+
+}
 
 export const deleteCandidateById = async (candidate_id) => {
     return await axios
@@ -66,5 +69,3 @@ export const deleteCandidateById = async (candidate_id) => {
 
         })
 }
-
-
