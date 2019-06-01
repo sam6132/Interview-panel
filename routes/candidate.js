@@ -155,7 +155,7 @@ router.delete('/deleteReview/:c_id&:r_id', auth, async (req, res) => {
 
 
 // defined the delete route 
-router.delete('/delete/:id', auth, async (req, res) => {
+router.get('/delete/:id', auth, async (req, res) => {
     await candidates.findOneAndRemove({ _id: req.params.id }, async (err, result) => {
 
         res.send(result);
