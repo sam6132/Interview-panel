@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { getCandidates } from 'services/candidate';
 import { getAccessToken } from 'services/auth';
-import { addCandidate } from 'services/candidate';
 import { editCandidateById } from 'services/candidate';
 import {editRounddetails} from 'services/candidate';
 import { getRoundDetailsByCandidateId } from 'services/candidate';
- import { updateRoundDetailsByCandidateId } from 'services/candidate';
+import { updateRoundDetailsByCandidateId } from 'services/candidate';
+import {addrounds} from 'services/candidate';
+
 
 const columns = [
 	{ title: 'round', field: 'title' },
@@ -58,43 +59,45 @@ export default class RoundDetailTable extends Component {
 						new Promise(resolve => {
 							setTimeout(() => {
 								resolve();
-								addCandidate(newData)
-									.then(res => {
+								// addCandidate(newData)
+								  addrounds(this.props.candidate_id,newData).then(res => {
 										let data = res.data;
 										console.log(data);
 										if (data.success === false) return this.setState({ msg: data.message });
-										this.updateRoundDetailsByCandidateId();
+										this.getReview();
 									})
 									.catch(error => {
 										this.setState({ msg: error.message });
 									});
 							}, 600);
 						}),
-
+                     // THESE is object type which we call by key value type
 					onRowUpdate: (newData, oldData) =>
+					 // creating a promise
 						new Promise(resolve => {
 							setTimeout(() => {
 								resolve();
-								// console.log('new Candidate :', newData);
-								// console.log('old Candidate :', oldData);
-
-								// editCandidateById(newData._id, newData)
-								// 	.then(res => {
-								// 		console.log(res);
-								// 		console.log(this.props.candidate_id);
-								// 		this.updateRoundDetailsByCandidateId();
-								// 	})
-								// 	.catch(err => {
-								// 		console.log(err.msg);
-								// 	});
-								console.log(newData)
-								updateRoundDetailsByCandidateId(newData._id, newData).then(res=>{
-									console.log(res.data)
-									this.getReview()
-								}).catch(err=>{
-									console.log(err.message)
-								})
-							}, 600);
+								 console.log('new Candidate :', newData);
+								console.log('old Candidate :', oldData);
+								 console.log(newData._id);	
+								 console.log() 
+								 updateRoundDetailsByCandidateId(newData._id, newData)
+								 	.then(res => {
+										 console.log(res);
+								 		console.log(this.props.candidate_id);
+								 		this.getReview();
+								 	})
+								 	.catch(err => {
+								 		console.log(err.msg);
+								 	});
+								//  console.log(newData)
+							 	// this.getReview().then(res=>{
+							 	 	// console.log(res)
+							 	 	// this.getReview()
+							 	// }).catch(err=>{
+								 	// console.log(err.message)
+							 	//  })
+							}, 6000);
 						}),
 					onRowDataChange: data => {
 						console.log(data);

@@ -56,7 +56,7 @@ router.get('/edit/:id', async (req, res) => {
 
 // define update id 
 
-router.post('/update/:id', auth, async (req, res) => {
+router.post('/update/:idupdateRoundDetailsByCandidateId', auth, async (req, res) => {
     const candidate = await candidates.findOneAndUpdate({ _id: req.params.id }, {
         '$set': req.body
     });
@@ -79,6 +79,8 @@ router.post('/update/:id', auth, async (req, res) => {
     }
 
 });
+
+// we will be using these for 
 
 router.post('/addReview/:id', auth, async (req, res) => {
     const candidate = await candidates.findOne({ _id: req.params.id });
@@ -116,6 +118,7 @@ router.get('/getReview/:r_id', auth, async (req, res) => {
     // const review = await candidate.rounds.findOne({ _id: r_id })
     res.send(candidate.rounds.id(r_id))
 })
+
 
 router.post('/editReview/:r_id', auth, async (req, res) => {
     const r_id = req.params.r_id
@@ -162,13 +165,19 @@ router.get('/getrounddetails/:id', async (req, res) => {
 // update round details 
 router.put('/updaterounddetails/:id',async(req,res) => {
     try {
-    const candidate = await  candidates.findOneAndUpdate({_id :req.params.id})
+    const r_id = req.params.r_id
+    const candidate = await  candidates.findOneAndUpdate({'rounds._id' :req.params.id}, {
+        '$set': {
+            'rounds' : req.body
+        }
+    })
     res.send(candidate.rounds)
      } catch(err){
     res.send('operation not performed')
 
 }
 })
+
 
 // db.inventory.find( { tags: ["red", "blank"] } )
 
@@ -177,3 +186,19 @@ module.exports = router;
 // i will be using getgetbyid to get the details 
 
 // localhost:3000/getrounddetails/5ce8efa7e63c5a2ec622683a
+
+// router.post('/editReview/:r_id', auth, async (req, res) => {
+//     const r_id = req.params.r_id
+
+
+//     console.log(req.body)
+//     const candidate = await candidates.findOneAndUpdate({ 'rounds._id': r_id }, {
+//         '$set': {
+//             'rounds.$': req.body
+//         }
+//     })
+//     await candidate.save()
+
+//     res.send(candidate)
+// })
+
