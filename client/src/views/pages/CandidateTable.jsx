@@ -4,10 +4,13 @@ import { getCandidates } from 'services/candidate';
 import { getAccessToken } from 'services/auth';
 import { addCandidate } from 'services/candidate';
 import { editCandidateById } from 'services/candidate';
+import { deleteCandidateById } from 'services/candidate';
 const columns = [
 	{ title: 'Name', field: 'name' },
 	{ title: 'Email', field: 'email' },
-	{ title: 'Number', field: 'number', type: 'numeric' }
+	{ title: 'Number', field: 'number', type: 'numeric' },
+	{ title: 'Status', field: 'status' }
+
 	// {
 	// 	title: 'Birth Place',
 	// 	field: 'birthCity',
@@ -100,9 +103,13 @@ export default class CandidateTable extends Component {
 						new Promise(resolve => {
 							setTimeout(() => {
 								resolve();
-								const data = [...this.state.candidates];
-								data.splice(data.indexOf(oldData), 1);
-								this.setState({ ...this.state, data });
+								deleteCandidateById(oldData._id)
+									.then(res => {
+										this.getCandidates();
+									})
+									.catch(err => {
+										console.log(err.msg);
+									});
 							}, 600);
 						})
 				}}

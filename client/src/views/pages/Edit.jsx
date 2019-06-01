@@ -37,7 +37,7 @@ export default class Edit extends Component {
 					</div>
 				) : (
 					<div>
-						<div className="bg-gradient-default candidate-detail shadow-lg candidate-detail  mx-auto">
+						<div className="bg-gradient-warning candidate-detail shadow-lg candidate-detail  mx-auto">
 							<div className="py-2 px-4  ">
 								<div className="align-items-center my-md row">
 									<div className="col-lg-12">
