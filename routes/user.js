@@ -176,6 +176,8 @@ router.delete('/revoke/:id&:token_id', auth, async (req, res) => {
             message: err.message
         })
     })
+
+
 });
 
 

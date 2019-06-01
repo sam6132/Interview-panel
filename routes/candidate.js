@@ -85,7 +85,7 @@ router.post('/update/:idupdateRoundDetailsByCandidateId', auth, async (req, res)
 router.post('/addReview/:id', auth, async (req, res) => {
     const candidate = await candidates.findOne({ _id: req.params.id });
 
-    if (!candidate) return res.status(400).send('candidate not found')
+    if(!candidate) return res.status(400).send('candidate not found')
 
     candidate.rounds.push(req.body);
 
@@ -101,7 +101,7 @@ router.post('/addReview/:id', auth, async (req, res) => {
     catch (err) {
         res.json({
             success: false,
-            message: 'Updated Failed' + err
+            message: 'Updated Failed' + err.messages
         });
     }
 
@@ -135,23 +135,6 @@ router.post('/editReview/:r_id', auth, async (req, res) => {
     res.send(candidate)
 })
 
-//delete refresh token  of user by user_id token_id 
-router.delete('/deleteReview/:c_id&:r_id', auth, async (req, res) => {
-    candidates.findOneAndUpdate({ _id: req.params.c_id }, { $pull: { rounds: { _id: req.params.r_id } } }).then((candidate) => {
-
-        res.json({
-            success: true,
-            message: "Review deleted successfully"
-        })
-    }).catch(err => {
-        res.json({
-            success: false,
-            message: err.message
-        })
-    })
-});
-
-
 
 
 // defined the delete route 
@@ -168,26 +151,31 @@ router.get('/delete/:id', auth, async (req, res) => {
 // get request 
 router.get('/getrounddetails/:id', async (req, res) => {
 
-    try {
-        const candidate = await candidates.findOne({ _id: req.params.id })
+    try{
+        const candidate = await candidates.findOne({_id:req.params.id})
 
-        res.send(candidate.rounds)
-    } catch (err) {
+    res.send(candidate.rounds)
+    }catch(err){
         res.send('operation not performed')
     }
-
-
+    
+    
 })
 
 // update round details 
-router.put('/updaterounddetails/:id', async (req, res) => {
+router.put('/updaterounddetails/:id',async(req,res) => {
     try {
-        const candidate = await candidates.findOneAndUpdate({ _id: req.params.id })
-        res.send(candidate.rounds)
-    } catch (err) {
-        res.send('operation not performed')
+    const r_id = req.params.r_id
+    const candidate = await  candidates.findOneAndUpdate({'rounds._id' :req.params.id}, {
+        '$set': {
+            'rounds' : req.body
+        }
+    })
+    res.send(candidate.rounds)
+     } catch(err){
+    res.send('operation not performed')
 
-    }
+}
 })
 
 
