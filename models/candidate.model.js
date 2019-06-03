@@ -15,5 +15,7 @@ const CandidateShema = new mongoose.Schema({
 
 const candidates = mongoose.model('Candidate', CandidateShema)
 
+
+
 module.exports = { candidates };
 
