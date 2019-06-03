@@ -56,7 +56,7 @@ export default class Edit extends Component {
 						</div>
 						<div className="container">
 							<div className="review-card bg-primary  shadow  border-10 ">
-								<RoundDetailTable className="mb-lg" candidate_id={this.props.match.params.id} />
+								<RoundDetailTable className="mb-lg" {...this.props} />
 								{/* <EditableTable /> */}
 							</div>
 						</div>

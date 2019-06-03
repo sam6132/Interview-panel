@@ -24,11 +24,11 @@ export default class RoundDetailTable extends Component {
 
 	getReview = async () => {
 		console.log('we are printhing props');
-		console.log(this.props.candidate_id);
+		console.log(this.props.match.params.id);
 
-		// await this.setState({candidate_id : this.props.candidate_id})
+		// await this.setState({candidate_id : this.props.match.params.id})
 
-		await getRoundDetailsByCandidateId(this.props.candidate_id)
+		await getRoundDetailsByCandidateId(this.props.match.params.id)
 			.then(response => {
 				console.log(response.data);
 				this.setState({ rounddetails: response.data });
@@ -49,15 +49,15 @@ export default class RoundDetailTable extends Component {
 				title="Rounds List"
 				columns={columns}
 				data={this.state.rounddetails}
-				onRowClick={e => {
-					console.log(e);
+				onRowClick={(e, data) => {
+					this.props.history.push(`/review/${this.props.match.params.id}&${data._id}`);
 				}}
 				editable={{
 					onRowAdd: newData =>
 						new Promise(resolve => {
 							setTimeout(() => {
 								resolve();
-								addReview(this.props.candidate_id, newData)
+								addReview(this.props.match.params.id, newData)
 									.then(res => {
 										this.getReview();
 										console.log(res.data);
@@ -91,7 +91,7 @@ export default class RoundDetailTable extends Component {
 						new Promise(resolve => {
 							setTimeout(() => {
 								resolve();
-								deleteReviewByReviewId(this.props.candidate_id, oldData._id)
+								deleteReviewByReviewId(this.props.match.params.id, oldData._id)
 									.then(res => {
 										console.log(res.data);
 										this.getReview();

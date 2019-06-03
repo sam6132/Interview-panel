@@ -22,6 +22,7 @@ class App extends Component {
 					{/* <Route path="/home" exact render={props => <Profile {...props} />} /> */}
 					<PrivateRoute path="/edit/:id" exact component={Edit} />
 					<PrivateRoute path="/edit-review/:c_id&:r_id" exact component={EditReview} />
+					<PrivateRoute path="/review/:c_id&:r_id" exact component={Create} />
 
 					<PublicRoute path="/register" exact component={Register} />
 					{/* <Route path="/create" exact render={props => <Create {...props} />} /> */}

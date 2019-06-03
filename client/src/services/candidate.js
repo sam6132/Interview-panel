@@ -58,4 +58,3 @@ export const deleteCandidateById = async (candidate_id) => {
 
         })
 }
-

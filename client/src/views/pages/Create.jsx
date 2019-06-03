@@ -1,87 +1,106 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { addCandidate } from 'services/candidate';
+import Header from 'components/Navbars/Nav';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+
+const useStyles = makeStyles(theme => ({
+	root: {
+		width: '100%'
+	},
+	heading: {
+		fontSize: theme.typography.pxToRem(15)
+	},
+	secondaryHeading: {
+		fontSize: theme.typography.pxToRem(15),
+		color: theme.palette.text.secondary
+	},
+	icon: {
+		verticalAlign: 'bottom',
+		height: 20,
+		width: 20
+	},
+	details: {
+		alignItems: 'center'
+	},
+	column: {
+		flexBasis: '33.33%'
+	},
+	helper: {
+		borderLeft: `2px solid ${theme.palette.divider}`,
+		padding: theme.spacing(1, 2)
+	},
+	link: {
+		color: theme.palette.primary.main,
+		textDecoration: 'none',
+		'&:hover': {
+			textDecoration: 'underline'
+		}
+	}
+}));
 
 export default class Create extends Component {
-	state = {
-		name: '',
-		email: '',
-		number: '',
-		msg: null
-	};
-
-	onSubmit = e => {
-		e.preventDefault();
-		let candidate = {
-			name: this.state.name,
-			email: this.state.email,
-			number: this.state.number
-		};
-		addCandidate(candidate)
-			.then(res => {
-				let data = res.data;
-				console.log(data);
-				if (data.success === false) return this.setState({ msg: data.message });
-			})
-			.catch(error => {
-				this.setState({ msg: error.message });
-			});
-		this.setState({
-			name: '',
-			email: '',
-			number: ''
-		});
-	};
-
+	state = {};
 	render() {
 		return (
-			<div className="card bg-white shadow border-10 ">
-				<h3 align="center" className="card-header">
-					Add Candidate Details
-				</h3>
-				<form onSubmit={this.onSubmit} className="card-body">
-					{this.state.msg ? <div className="alert alert-danger text-center">{this.state.msg}</div> : ''}
-					<div className="form-group">
-						<input
-							placeholder=" name"
-							type="text"
-							className="form-control "
-							value={this.state.name}
-							aria-label="name"
-							aria-required="true"
-							name="name"
-							onChange={e => this.setState({ name: e.target.value })}
-						/>
-					</div>
-					<div className="form-group">
-						<input
-							placeholder=" Email"
-							type="text"
-							className="form-control"
-							value={this.state.email}
-							aria-label="email"
-							aria-required="true"
-							name="email"
-							onChange={e => this.setState({ email: e.target.value })}
-						/>
-					</div>
-					<div className="form-group">
-						<input
-							placeholder="Mobile number"
-							type="text"
-							className="form-control"
-							value={this.state.number}
-							aria-label="number"
-							aria-required="true"
-							name="number"
-							onChange={e => this.setState({ number: e.target.value })}
-						/>
-					</div>
+			<div>
+				<Header />
 
-					<div className="form-group text-center">
-						<input type="submit" value="Add Candidate" className="btn btn-primary" />
+				{this.state.loading ? (
+					<div className=" loader-container">
+						<div className="loader m-auto" />
 					</div>
-				</form>
+				) : (
+					<div>
+						<div className="bg-gradient-warning shadow-lg  mx-auto mb-sm">
+							<div className="py-2 px-4  ">
+								<div className="align-items-center my-md row" />
+							</div>
+						</div>
+						<div className="container">
+							<ExpansionPanel defaultExpanded>
+								<ExpansionPanelSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls="panel1c-content"
+									id="panel1c-header"
+								>
+									<div>
+										<Typography>Location</Typography>
+									</div>
+								</ExpansionPanelSummary>
+								<ExpansionPanelDetails className="row">
+									<div className="col-md-8">
+										<Chip label="Barbados" onDelete={() => {}} />
+									</div>
+									<div className="col-md-4">
+										<Typography variant="caption">
+											Select your destination of choice
+											<br />
+											<a href="#sub-labels-and-columns">Learn more</a>
+										</Typography>
+									</div>
+								</ExpansionPanelDetails>
+								<Divider />
+								<ExpansionPanelActions>
+									<Button size="small">Cancel</Button>
+									<Button size="small" color="primary">
+										Save
+									</Button>
+								</ExpansionPanelActions>
+							</ExpansionPanel>
+						</div>
+					</div>
+				)}
 			</div>
 		);
 	}
