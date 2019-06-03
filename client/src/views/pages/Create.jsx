@@ -14,7 +14,7 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-import svgHeader from 'assets/svg/header.svg'
+import svgHeader from 'assets/svg/header.svg';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -65,7 +65,7 @@ export default class Create extends Component {
 				) : (
 					<div>
 						<div className=" shadow-lg  mx-auto mb-sm">
-							<img src={svgHeader} alt="" sizes="" srcset=""/>
+							{/* <img src={svgHeader} alt="" sizes="" srcset=""/> */}
 						</div>
 						<div className="container">
 							<ExpansionPanel defaultExpanded>

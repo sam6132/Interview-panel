@@ -8,7 +8,6 @@ import { isLoggedIn } from 'services/auth';
 
 class Header extends React.Component {
 	componentDidMount() {
-		// console.log(this.props);
 		// let headroom = new Headroom(document.getElementById('head-nav'));
 		// initialise
 		// headroom.init();
@@ -35,12 +34,11 @@ class Header extends React.Component {
 										<Link className="text-white" to="" onClick={logout}>
 											Logout
 										</Link>
-										<br/>
+										<br />
 										<Link className="text-white" to="" onClick={logout}>
-											Add Team 
+											Add Team
 										</Link>
 									</li>
-									
 								) : (
 									''
 								)}

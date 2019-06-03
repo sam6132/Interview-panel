@@ -17,13 +17,8 @@ export default class Edit extends Component {
 	};
 
 	componentDidMount() {
-		// console.log('we are printing the id');
-		// console.log(this.props.match.params.id);
 		this.setState({ candidate_id: this.props.match.params.id });
 		this.setState({ candidate: this.props.location.state });
-
-		// console.log('we are checking after the state is set');
-		// console.log(this.state.candidate_id);
 	}
 
 	render() {
@@ -37,20 +32,17 @@ export default class Edit extends Component {
 					</div>
 				) : (
 					<div>
-						<div className="bg-gradient-warning candidate-detail shadow-lg candidate-detail  mx-auto">
+						<div className="bg-gradient-default candidate-detail shadow-lg candidate-detail  mx-auto">
 							<div className="py-2 px-4  ">
 								<div className="align-items-center my-md row">
 									<div className="col-lg-12">
 										<h3 className="text-white text-center ">Candidate's detail</h3>
+										<p className="lead text-white mt-1">{this.state.candidate._id}.</p>
+
 										<p className="lead text-white mt-1">{this.state.candidate.name}.</p>
 										<p className="lead text-white mt-1 ">{this.state.candidate.email}</p>
 										<p className="lead text-white mt-1">{this.state.candidate.number}</p>
 									</div>
-									{/* <div className="ml-lg-auto col-lg-3">
-										<a href="#" className="btn-white btn btn-default btn-lg btn-block">
-											Contact
-										</a>
-									</div> */}
 								</div>
 							</div>
 						</div>

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const candidates = mongoose.model('Candidate', new mongoose.Schema({
+const CandidateShema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     number: { type: String, required: true },
@@ -11,7 +11,9 @@ const candidates = mongoose.model('Candidate', new mongoose.Schema({
         qualified: Boolean
     }]
 
-}))
+})
+
+const candidates = mongoose.model('Candidate', CandidateShema)
 
 module.exports = { candidates };
 

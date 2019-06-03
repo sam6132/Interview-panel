@@ -17,8 +17,7 @@ describe('candidate module', () => {
         axios.post('http://localhost:5000/api/candidate/add', candidate, {
             headers: { 'x-auth': token }
         }).then(res => {
-            // console.log(res.data)
-            // expect(res.data.success).to.an('array')
+
             res.data.should.be.a('object')
 
         })
@@ -40,7 +39,6 @@ describe('candidate module', () => {
         axios.get('http://localhost:5000/api/candidate/', {
             headers: { 'x-auth': token }
         }).then(res => {
-            // console.log(res.data)
             expect(res.data).to.be.an('array')
 
 
@@ -56,7 +54,6 @@ describe('candidate module', () => {
         axios.post('http://localhost:5000/api/candidate/update/5cebb82167b1e84892db9e63', review, {
             headers: { 'x-auth': token }
         }).then(res => {
-            // console.log(res.data)
             expect(res.data.success).to.be.an('boolean')
 
 

@@ -13,11 +13,7 @@ export default class EditReview extends Component {
 	};
 
 	componentDidMount() {
-		console.log(this.props.match.params);
-		// this.props.match.params.id
 		getReview(this.props.match.params.r_id).then(res => {
-			console.log(res);
-			console.log(res.data.qualified);
 			this.setState({
 				title: res.data.title,
 				comment: res.data.comment,
@@ -38,11 +34,9 @@ export default class EditReview extends Component {
 
 		axios
 			.post(`http://localhost:5000/api/candidate/editReview/${this.props.match.params.r_id}`, candidate, {
-				headers: { 'x-auth': localStorage.getItem('token') }
+				headers: { 'x-auth': sessionStorage.getItem('token') }
 			})
-			// console.log(candidate)
 			.then(res => {
-				console.log(res);
 				this.setState({ loading: false });
 			})
 			.catch(err => {
