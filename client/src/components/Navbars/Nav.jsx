@@ -35,7 +35,12 @@ class Header extends React.Component {
 										<Link className="text-white" to="" onClick={logout}>
 											Logout
 										</Link>
+										<br/>
+										<Link className="text-white" to="" onClick={logout}>
+											Add Team 
+										</Link>
 									</li>
+									
 								) : (
 									''
 								)}
