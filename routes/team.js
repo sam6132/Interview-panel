@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { Team, sendMail  } = require('../models/team.model');
 const  nodemailer = require('nodemailer');
+const previewEmail =  require('preview-email');
+
 
 // post the team details
 router.post('/Teamlead', async(req,res) => {
 
-    // now decreare a constble 
-    // console.log(req.body);
     let team = await  new Team(req.body);
     let lead_mailID = req.body.team_lead.email
     // console.log(lead_mailID);

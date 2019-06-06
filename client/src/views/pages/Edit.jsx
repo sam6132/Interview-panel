@@ -7,6 +7,7 @@ import loader from '../../assets/img/loading img/loader.gif';
 import Loading from 'components/Models/loadingModle';
 import 'assets/css/style.css';
 import RoundDetailTable from './RoundDetails';
+import SideBar from 'views/pages/SideBar';
 
 export default class Edit extends Component {
 	state = {
@@ -30,7 +31,7 @@ export default class Edit extends Component {
 		return (
 			<div>
 				<Header />
-
+                  
 				{this.state.loading ? (
 					<div className=" loader-container">
 						<div className="loader m-auto" />

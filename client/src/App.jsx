@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Profile from 'views/pages/Profile';
 import Edit from 'views/pages/Edit';
 import EditReview from 'views/pages/EditReview';
-
+import SideBar from 'views/pages/SideBar';
 import Create from 'views/pages/Create';
 import Nav from 'components/Navbars/Nav.jsx';
 import PrivateRoute from 'components/routes/PrivateRoute';
