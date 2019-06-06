@@ -3,6 +3,7 @@ import axios from 'axios';
 import Header from 'components/Navbars/Nav';
 import { editCandidate } from 'services/candidate';
 import { getReview } from 'services/review';
+import SideBar from 'views/pages/SideBar';
 
 export default class EditReview extends Component {
 	state = {
@@ -55,6 +56,7 @@ export default class EditReview extends Component {
 					</div>
 				) : (
 					<div>
+						<SideBar/>
 						<Header />
 						<main className="header">
 							<section className="section section-shaped section-lg">

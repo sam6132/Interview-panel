@@ -13,8 +13,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-
-import svgHeader from 'assets/svg/header.svg';
+import SideBar from 'views/pages/SideBar';
+import svgHeader from 'assets/svg/header.svg'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -55,7 +55,8 @@ export default class Create extends Component {
 	state = {};
 	render() {
 		return (
-			<div>
+			<div> 
+				<SideBar/>
 				<Header />
 
 				{this.state.loading ? (
