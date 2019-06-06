@@ -17,14 +17,11 @@ export default class AddRoundModel extends Component {
 			comment: this.state.comment,
 			qualified: this.state.qualified
 		};
-		console.log(round);
-		console.log(this.props.candidateId);
 
 		axios
 			.post('http://localhost:5000/api/candidate/update/' + this.props.candidateId, round, {
-				headers: { 'x-auth': localStorage.getItem('token') }
+				headers: { 'x-auth': sessionStorage.getItem('token') }
 			})
-			// console.log(obj)
 			.then(res => {
 				let data = res['data'];
 				this.setState({

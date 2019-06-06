@@ -9,21 +9,14 @@ const columns = [
 	{ title: 'Name', field: 'name' },
 	{ title: 'Email', field: 'email' },
 	{ title: 'Number', field: 'number', type: 'numeric' },
+	{ title: 'Team Lead', field: 'team_lead', lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' } },
+	{ title: 'Team Member', field: 'team_member', lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' } },
 	{ title: 'Status', field: 'status' }
-
-	// {
-	// 	title: 'Birth Place',
-	// 	field: 'birthCity',
-	// 	lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' }
-	// }
 ];
 
 export default class CandidateTable extends Component {
 	state = {
 		candidates: []
-		// infoModel: false,
-		// addRoundModel: false,
-		// candidate: null
 	};
 
 	componentDidMount() {
@@ -31,19 +24,15 @@ export default class CandidateTable extends Component {
 	}
 
 	getCandidates = () => {
-		console.log(this.props);
-
 		getCandidates()
 			.then(response => {
 				if (response.data.success === false) {
 					getAccessToken();
 					return;
 				}
-				// console.log(response.data);
 				this.setState({
 					candidates: response.data
 				});
-				// console.log(this.state.candidates);
 			})
 			.catch(error => {
 				console.log(error);
@@ -51,7 +40,6 @@ export default class CandidateTable extends Component {
 	};
 
 	navEdit = (e, data) => {
-		console.log(data);
 		this.props.history.push(`/edit/${data._id}`, data);
 	};
 
@@ -70,7 +58,6 @@ export default class CandidateTable extends Component {
 								addCandidate(newData)
 									.then(res => {
 										let data = res.data;
-										console.log(data);
 										if (data.success === false) return this.setState({ msg: data.message });
 										this.getCandidates();
 									})
@@ -84,8 +71,6 @@ export default class CandidateTable extends Component {
 						new Promise(resolve => {
 							setTimeout(() => {
 								resolve();
-								// console.log('new Candidate :', newData);
-								// console.log('old Candidate :', oldData);
 
 								editCandidateById(newData._id, newData)
 									.then(res => {
@@ -96,9 +81,7 @@ export default class CandidateTable extends Component {
 									});
 							}, 600);
 						}),
-					onRowDataChange: data => {
-						console.log(data);
-					},
+					onRowDataChange: data => {},
 					onRowDelete: oldData =>
 						new Promise(resolve => {
 							setTimeout(() => {

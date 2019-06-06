@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const { candidates } = require('../models/candidate.model');
-
+// const { getNextCount } = require('../models/counter.model')
 
 
 // bussiness router is express router
@@ -20,9 +20,14 @@ router.post('/add', auth, async (req, res) => {
         });
     }
 
-    interview = new candidates(req.body);
+    interview = await new candidates({
 
-    interview.save().then((candidate) => {
+        name: req.body.name,
+        email: req.body.email,
+        number: req.body.number
+    });
+
+    await interview.save().then((candidate) => {
         res.status(200).json({
             success: true,
             candidate

@@ -17,7 +17,6 @@ class Login extends React.Component {
 		loggingIn: false
 	};
 	componentDidMount() {
-		console.log(this.props.history);
 		document.documentElement.scrollTop = 0;
 		document.scrollingElement.scrollTop = 0;
 		this.refs.main.scrollTop = 0;
@@ -32,13 +31,11 @@ class Login extends React.Component {
 		};
 		login(user)
 			.then(res => {
-				console.log(res.data);
-
 				let data = res.data;
 				if (data.success === false) return this.setState({ msg: data.message, loggingIn: false });
-				localStorage.setItem('token', data.accessToken);
-				localStorage.setItem('refreshToken', data.refreshToken);
-				localStorage.setItem('user_id', data.user.id);
+				sessionStorage.setItem('token', data.accessToken);
+				sessionStorage.setItem('refreshToken', data.refreshToken);
+				sessionStorage.setItem('user_id', data.user.id);
 				this.props.history.push('/profile');
 			})
 			.catch(err => {

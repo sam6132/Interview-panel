@@ -16,27 +16,26 @@ export const register = async (user) => {
 }
 
 export const logout = () => {
-    const user_id = localStorage.getItem('user_id');
-    const token = localStorage.getItem('refreshToken');
+    const user_id = sessionStorage.getItem('user_id');
+    const token = sessionStorage.getItem('refreshToken');
 
     axios.get(`${URI}/logout/${user_id}&${token}`);
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.reload()
 }
 
 export const isLoggedIn = () => {
-    if (localStorage.getItem("refreshToken") === null) {
+    if (sessionStorage.getItem("refreshToken") === null) {
         return false
     }
     return true
 }
 
 export const getAccessToken = () => {
-    const userId = localStorage.getItem('user_id');
-    const token = localStorage.getItem('refreshToken');
+    const userId = sessionStorage.getItem('user_id');
+    const token = sessionStorage.getItem('refreshToken');
     axios.get(`http://localhost:5000/api/user/verify/${userId}&${token}`).then(res => {
-        // console.log(res.data);
-        localStorage.setItem('token', res.data);
+        sessionStorage.setItem('token', res.data);
     }).catch(err => {
         logout()
     });

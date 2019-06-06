@@ -66,7 +66,7 @@ export default class Create extends Component {
 				) : (
 					<div>
 						<div className=" shadow-lg  mx-auto mb-sm">
-							<img src={svgHeader} alt="" sizes="" srcset=""/>
+							{/* <img src={svgHeader} alt="" sizes="" srcset=""/> */}
 						</div>
 						<div className="container">
 							<ExpansionPanel defaultExpanded>
