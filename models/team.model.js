@@ -1,21 +1,24 @@
 const mongoose = require('mongoose');
-const  nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
-const teamShema =   new mongoose.Schema({
-    team_lead : {
-        name:{ type: String },
-        email: {type:String },
+const teamShema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
     },
-    
-    Team_members: [{
-        team_member_name: String,
-        team_member_email: String
+    team_lead: {
+        name: { type: String },
+        email: { type: String },
+    },
+    members: [{
+        name: String,
+        email: String
     }]
-    })
+})
 
-const Team = mongoose.model('Team',teamShema)
+const Team = mongoose.model('Team', teamShema)
 
-function sendMail(user_email, leadID){
+function sendMail(user_email, leadID) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -27,8 +30,9 @@ function sendMail(user_email, leadID){
     const mailOptions = {
         from: 'sam@blockchainappfactory.com',
         to: user_email,
-        subject: 'Sending Email using Node.js',
-        html: `<p>Click <a href="http://localhost:3000/addMembers/${leadID}">here</a> Activate account</p>`
+        subject: 'Team is created under your guidence',
+        text: ' please add your team members to list',
+        html: `<p>Click <a href="http://localhost:3000/teamMembers/${leadID}">here</a> Activate account</p>`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -41,4 +45,4 @@ function sendMail(user_email, leadID){
 }
 
 
-module.exports = { Team, sendMail } ;
+module.exports = { Team, sendMail };

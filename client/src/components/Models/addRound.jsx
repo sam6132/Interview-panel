@@ -20,7 +20,7 @@ export default class AddRoundModel extends Component {
 
 		axios
 			.post('http://localhost:5000/api/candidate/update/' + this.props.candidateId, round, {
-				headers: { 'x-auth': sessionStorage.getItem('token') }
+				headers: { 'x-auth': localStorage.getItem('token') }
 			})
 			.then(res => {
 				let data = res['data'];

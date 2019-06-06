@@ -34,7 +34,7 @@ export default class EditReview extends Component {
 
 		axios
 			.post(`http://localhost:5000/api/candidate/editReview/${this.props.match.params.r_id}`, candidate, {
-				headers: { 'x-auth': sessionStorage.getItem('token') }
+				headers: { 'x-auth': localStorage.getItem('token') }
 			})
 			.then(res => {
 				this.setState({ loading: false });

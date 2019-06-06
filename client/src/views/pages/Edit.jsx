@@ -19,6 +19,7 @@ export default class Edit extends Component {
 	componentDidMount() {
 		this.setState({ candidate_id: this.props.match.params.id });
 		this.setState({ candidate: this.props.location.state });
+		// console.log(this.state.candidate);
 	}
 
 	render() {
@@ -48,7 +49,11 @@ export default class Edit extends Component {
 						</div>
 						<div className="container">
 							<div className="review-card bg-primary  shadow  border-10 ">
-								<RoundDetailTable className="mb-lg" {...this.props} />
+								<RoundDetailTable
+									className="mb-lg"
+									candidate={this.props.location.state}
+									{...this.props}
+								/>
 								{/* <EditableTable /> */}
 							</div>
 						</div>

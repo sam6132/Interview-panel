@@ -8,8 +8,11 @@ const CandidateShema = new mongoose.Schema({
     rounds: [{
         title: String,
         comment: String,
-        qualified: Boolean
-    }]
+        qualified: Boolean,
+    }],
+    team: {
+        type: mongoose.Schema.Types.ObjectId
+    },
 
 })
 

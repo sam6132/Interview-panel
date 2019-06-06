@@ -28,21 +28,17 @@ class Header extends React.Component {
 								TRANXIT
 							</a>
 
-							<ul className="navbar-nav  ml-lg-auto">
-								{isLoggedIn() ? (
+							{isLoggedIn() ? (
+								<ul className="navbar-nav  ml-lg-auto">
 									<li className="nav-item">
 										<Link className="text-white" to="" onClick={logout}>
 											Logout
 										</Link>
-										<br />
-										<Link className="text-white" to="" onClick={logout}>
-											Add Team
-										</Link>
 									</li>
-								) : (
-									''
-								)}
-							</ul>
+								</ul>
+							) : (
+								''
+							)}
 						</div>
 					</div>
 				</header>

@@ -5,11 +5,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Profile from 'views/pages/Profile';
 import Edit from 'views/pages/Edit';
 import EditReview from 'views/pages/EditReview';
-
 import Create from 'views/pages/Create';
 import Nav from 'components/Navbars/Nav.jsx';
 import PrivateRoute from 'components/routes/PrivateRoute';
 import PublicRoute from 'components/routes/PublicRoute';
+import TeamMember from 'views/pages/TeamMembers';
 
 class App extends Component {
 	render() {
@@ -23,6 +23,7 @@ class App extends Component {
 					<PrivateRoute path="/edit/:id" exact component={Edit} />
 					<PrivateRoute path="/edit-review/:c_id&:r_id" exact component={EditReview} />
 					<PrivateRoute path="/review/:c_id&:r_id" exact component={Create} />
+					<PrivateRoute path="/teamMembers/:t_id" exact component={TeamMember} />
 
 					<PublicRoute path="/register" exact component={Register} />
 					{/* <Route path="/create" exact render={props => <Create {...props} />} /> */}

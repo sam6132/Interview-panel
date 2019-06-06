@@ -20,12 +20,7 @@ router.post('/add', auth, async (req, res) => {
         });
     }
 
-    interview = await new candidates({
-
-        name: req.body.name,
-        email: req.body.email,
-        number: req.body.number
-    });
+    interview = await new candidates(req.body);
 
     await interview.save().then((candidate) => {
         res.status(200).json({
