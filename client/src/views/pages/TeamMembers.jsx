@@ -25,7 +25,7 @@ class TeamMember extends React.Component {
     const team_id = this.props.match.params.t_id;
     axios
       .post(
-        `http://192.168.0.160:5000/api/team/addTeamMembers/${team_id}`,
+        `http://206.189.235.9:5000/api/team/addTeamMembers/${team_id}`,
         this.state.teamMembers,
         {
           headers: { "x-auth": localStorage.getItem("token") }

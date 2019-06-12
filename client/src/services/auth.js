@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const URI = 'http://192.168.0.160:5000/api/user';
+const URI = 'http://206.189.235.9:5000/api/user';
 
 
 export const login = async (user) => {
@@ -34,7 +34,7 @@ export const isLoggedIn = () => {
 export const getAccessToken = () => {
     const userId = localStorage.getItem('user_id');
     const token = localStorage.getItem('refreshToken');
-    axios.get(`http://192.168.0.160:5000/api/user/verify/${userId}&${token}`).then(res => {
+    axios.get(`http://206.189.235.9:5000/api/user/verify/${userId}&${token}`).then(res => {
         localStorage.setItem('token', res.data);
     }).catch(err => {
         logout()

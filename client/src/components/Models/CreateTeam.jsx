@@ -37,7 +37,7 @@ export default class CreateTeam extends Component {
     }
 
     axios
-      .post("http://192.168.0.160:5000/api/team/createTeam/", team, {
+      .post("http://206.189.235.9:5000/api/team/createTeam/", team, {
         headers: { "x-auth": localStorage.getItem("token") }
       })
       .then(res => {
