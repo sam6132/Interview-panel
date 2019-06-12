@@ -43,7 +43,7 @@ class App extends Component {
           <PrivateRoute path="/questions" exact component={Questions} />
 
           {/* <Route path="/edit/:id" excat render={props => <Edit {...props} />} /> */}
-          <PublicRoute path="/CandidateProfile" exact component={CandidateProfile}/>
+          {/* <PublicRoute path="/CandidateProfile" exact component={CandidateP}/> */}
         </Switch>
       </BrowserRouter>
     );
