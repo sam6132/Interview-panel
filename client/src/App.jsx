@@ -11,6 +11,7 @@ import Nav from "components/Navbars/Nav.jsx";
 import PrivateRoute from "components/routes/PrivateRoute";
 import PublicRoute from "components/routes/PublicRoute";
 import TeamMember from "views/pages/TeamMembers";
+import CandidateProfile from "views/pages/CandidateProfile"
 
 class App extends Component {
   render() {
@@ -38,6 +39,7 @@ class App extends Component {
           {/* <Route path="/create" exact render={props => <Create {...props} />} /> */}
           <PrivateRoute path="/profile" component={Profile} />
           {/* <Route path="/edit/:id" excat render={props => <Edit {...props} />} /> */}
+          <PublicRoute path="/CandidateProfile" exact component={CandidateProfile}/>
         </Switch>
       </BrowserRouter>
     );
