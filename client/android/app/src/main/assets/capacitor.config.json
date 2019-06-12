@@ -1,7 +1,0 @@
-{
-  "appId": "com.traxit.panel",
-  "appName": "traxit",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "build"
-}
