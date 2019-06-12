@@ -71,6 +71,7 @@ router.post('/login', async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                team: user.team,
                 activated: user.activated,
             }
         });
@@ -103,7 +104,8 @@ router.post('/register', async (req, res) => {
 
         email: req.body.email,
         password: req.body.password,
-        role: req.body.role
+        role: req.body.role,
+        team: req.body.team
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -124,7 +126,7 @@ router.post('/register', async (req, res) => {
             res.json({
                 success: false,
                 user: 'Cannot create a Account',
-                err
+                message: err.message
             });
         });
 });

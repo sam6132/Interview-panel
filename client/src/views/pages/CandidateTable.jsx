@@ -70,7 +70,7 @@ export default class CandidateTable extends Component {
   };
 
   navEdit = (e, data) => {
-    this.props.history.push(`/edit/${data._id}`, data);
+    this.props.history.push(`/detail/${data._id}`, data);
   };
 
   render() {

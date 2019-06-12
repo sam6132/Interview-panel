@@ -13,6 +13,7 @@ const CandidateShema = new mongoose.Schema({
     team: {
         type: mongoose.Schema.Types.ObjectId
     },
+    skills: [String]
 
 })
 

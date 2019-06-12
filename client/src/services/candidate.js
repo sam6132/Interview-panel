@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const URI = 'http://localhost:5000/api/candidate';
+const URI = 'http://192.168.0.160:5000/api/candidate';
 
 
 export const addCandidate = async (candidate) => {
@@ -26,7 +26,7 @@ export const editCandidate = (candidate_id) => {
 
 export const editCandidateById = (c_id, candidate) => {
     return axios
-        .post(`http://localhost:5000/api/candidate/update/${c_id}`, candidate, {
+        .post(`http://192.168.0.160:5000/api/candidate/update/${c_id}`, candidate, {
             headers: { 'x-auth': localStorage.getItem('token') }
         })
 }
@@ -36,15 +36,32 @@ export const editCandidateById = (c_id, candidate) => {
 
 export const getRoundDetailsByCandidateId = async (candidate_id) => {
     return await axios
-        .get(`http://localhost:5000/api/candidate/getrounddetails/${candidate_id}`, {
+        .get(`http://192.168.0.160:5000/api/candidate/getrounddetails/${candidate_id}`, {
             headers: { 'x-auth': localStorage.getItem('token') }
         })
 
 }
 
+
+export const addSkillsByCandidateId = async (candidate_id, skill) => {
+
+    console.log(skill)
+    return await axios
+        .post(`http://192.168.0.160:5000/api/candidate/addSkill/${candidate_id}`, { skill }, {
+            headers: { 'x-auth': localStorage.getItem('token') }
+        })
+}
+
+export const getSkillsByCandidateId = async (candidate_id) => {
+    return await axios
+        .get(`http://192.168.0.160:5000/api/candidate/getskills/${candidate_id}`, {
+            headers: { 'x-auth': localStorage.getItem('token') }
+        })
+
+}
 export const updateRoundDetailsByCandidateId = async (candidate_id, review) => {
     return await axios
-        .post(`http://localhost:5000/api/candidate/editReview/${candidate_id}`, review, {
+        .post(`http://192.168.0.160:5000/api/candidate/editReview/${candidate_id}`, review, {
             headers: { 'x-auth': localStorage.getItem('token') }
 
         })
@@ -53,7 +70,7 @@ export const updateRoundDetailsByCandidateId = async (candidate_id, review) => {
 
 export const deleteCandidateById = async (candidate_id) => {
     return await axios
-        .delete(`http://localhost:5000/api/candidate/delete/${candidate_id}`, {
+        .delete(`http://192.168.0.160:5000/api/candidate/delete/${candidate_id}`, {
             headers: { 'x-auth': localStorage.getItem('token') }
 
         })

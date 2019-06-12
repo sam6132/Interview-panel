@@ -8,39 +8,56 @@ import axios from 'axios';
 // core components
 import Header from 'components/Navbars/Nav.jsx';
 import { register } from 'services/auth';
+import { getTeams } from 'services/team';
 
 class Register extends React.Component {
-	componentDidMount() {
-		document.documentElement.scrollTop = 0;
-		document.scrollingElement.scrollTop = 0;
-		this.refs.main.scrollTop = 0;
-	}
 	state = {
 		email: null,
 		password: null,
 		role: 'HR',
-		msg: null,
+		team:'',
+		teams:[],
+		msg: '',
 		loggingIn: false
 	};
 
+	componentDidMount() {
+		document.documentElement.scrollTop = 0;
+		document.scrollingElement.scrollTop = 0;
+		this.refs.main.scrollTop = 0;
+		this.getTeams()
+	}
+
+	getTeams() {
+		getTeams().then(res=>{
+			this.setState({teams:res.data})
+		}).catch(err=>{
+			console.log(err.message)
+		})
+	}
+
+
+	
 	register = e => {
 		e.preventDefault();
 		this.setState({ loggingIn: true });
 		let user = {
 			email: this.state.email,
 			password: this.state.password,
-			role: this.state.role
+			role: this.state.role,
+			team:this.state.team
 		};
+		// console.log(user)
 		register(user)
 			.then(res => {
 				let data = res.data;
-				console.log(data);
+				console.log(res.data);
 				if (data.success === false) return this.setState({ msg: data.message, loggingIn: false });
 
 				this.props.history.push('/');
 			})
 			.catch(err => {
-				return this.setState({ loggingIn: false });
+				return this.setState({ msg: err.message, loggingIn: false });
 			});
 	};
 	render() {
@@ -119,6 +136,23 @@ class Register extends React.Component {
 														<option value="HR">HR</option>
 														<option value="Team lead">Team lead</option>
 														<option value="Team members">Team member</option>
+													</select>
+												</FormGroup>
+
+												<FormGroup>
+													<select
+														className="input-group-alternative mb-3 custom-select"
+														value={this.state.team}
+														onChange={e => this.setState({ team: e.target.value })}
+													>
+														<option  value=''>Select Team</option>
+														{ 
+															this.state.teams.map( team=>{
+																return <option key={team._id} value={team._id}>{team.name}</option>
+
+															})
+														}
+														
 													</select>
 												</FormGroup>
 

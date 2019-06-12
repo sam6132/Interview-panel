@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const { candidates } = require('../models/candidate.model');
 // const { getNextCount } = require('../models/counter.model')
+const { Team, sendMail } = require('../models/team.model');
 
 
 // bussiness router is express router
@@ -20,9 +21,22 @@ router.post('/add', auth, async (req, res) => {
         });
     }
 
-    interview = await new candidates(req.body);
+    candidate = await new candidates(req.body);
 
-    await interview.save().then((candidate) => {
+    await candidate.save().then(async (candidate) => {
+
+        const team = await Team.findOne({ _id: candidate.team })
+        const mailIds = [];
+        for (let member of team.members) {
+            mailIds.push(member.email)
+        }
+        const mailOptions = {
+            from: 'sam@blockchainappfactory.com',
+            to: mailIds,
+            subject: 'Interview process',
+            text: 'A new Candidate is needed to be interviewed',
+        };
+        sendMail(mailOptions)
         res.status(200).json({
             success: true,
             candidate
@@ -84,7 +98,6 @@ router.post('/addReview/:id', auth, async (req, res) => {
     const candidate = await candidates.findOne({ _id: req.params.id });
 
     if (!candidate) return res.status(400).send('candidate not found')
-
     candidate.rounds.push(req.body);
 
     try {
@@ -105,6 +118,42 @@ router.post('/addReview/:id', auth, async (req, res) => {
 
 
 })
+
+
+
+router.post('/addSkill/:id', auth, async (req, res) => {
+    const candidate = await candidates.findOne({ _id: req.params.id });
+
+    if (!candidate) return res.status(400).send('candidate not found')
+    console.log(req.body)
+
+    candidate.skills.push(req.body.skill);
+
+    try {
+        await candidate.save();
+
+        res.json({
+            success: true,
+            skills: candidate.skills,
+            message: 'Updated Sucessfully'
+        });
+    }
+    catch (err) {
+        res.json({
+            success: false,
+            message: 'Updated Failed' + err
+        });
+    }
+
+
+})
+
+
+
+
+
+
+
 
 // these is for getting by id 
 
@@ -174,6 +223,16 @@ router.get('/getrounddetails/:id', async (req, res) => {
     }
 
 
+})
+
+router.get('/getskills/:c_id', async (req, res) => {
+    try {
+        const candidate = await candidates.findOne({ _id: req.params.c_id })
+
+        res.send(candidate.skills)
+    } catch (err) {
+        res.send(false)
+    }
 })
 
 // update round details 

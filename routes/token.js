@@ -25,6 +25,7 @@ router.get('/confirmation/:token', async (req, res) => {
 
     user.activated = true;
     await user.save();
+    res.redirect('http://192.168.0.160')
     res.json({
         success: true,
         email: req.body.email,

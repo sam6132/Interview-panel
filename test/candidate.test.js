@@ -1,7 +1,7 @@
 
 var expect = require("chai").expect;
 const axios = require('axios')
-const URI = 'http://localhost:5000/api/user';
+const URI = 'http://192.168.0.160:5000/api/user';
 const chai = require('chai')
 let should = chai.should();
 const candidates = require('../models/candidate.model')
@@ -14,7 +14,7 @@ describe('candidate module', () => {
             email: 'sam@123.com',
             number: 11234567
         };
-        axios.post('http://localhost:5000/api/candidate/add', candidate, {
+        axios.post('http://192.168.0.160:5000/api/candidate/add', candidate, {
             headers: { 'x-auth': token }
         }).then(res => {
 
@@ -36,7 +36,7 @@ describe('candidate module', () => {
     // })
 
     it(' return all candidates', (done) => {
-        axios.get('http://localhost:5000/api/candidate/', {
+        axios.get('http://192.168.0.160:5000/api/candidate/', {
             headers: { 'x-auth': token }
         }).then(res => {
             expect(res.data).to.be.an('array')
@@ -51,7 +51,7 @@ describe('candidate module', () => {
             title: 'ertyuiopl,mnvcde',
             comment: 'my comment'
         }
-        axios.post('http://localhost:5000/api/candidate/update/5cebb82167b1e84892db9e63', review, {
+        axios.post('http://192.168.0.160:5000/api/candidate/update/5cebb82167b1e84892db9e63', review, {
             headers: { 'x-auth': token }
         }).then(res => {
             expect(res.data.success).to.be.an('boolean')
