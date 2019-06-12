@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ff4ffff1.chunk.css",
+    "main.js": "/static/js/main.4f1da6d9.chunk.js",
+    "main.js.map": "/static/js/main.4f1da6d9.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.2d21153d.chunk.js": "/static/js/2.2d21153d.chunk.js",
+    "static/js/2.2d21153d.chunk.js.map": "/static/js/2.2d21153d.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.83b1b20db905948b3ec5dc13e1534e36.js": "/precache-manifest.83b1b20db905948b3ec5dc13e1534e36.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.ff4ffff1.chunk.css.map": "/static/css/main.ff4ffff1.chunk.css.map",
+    "static/media/argon-react-white.png": "/static/media/argon-react-white.e69fce87.png",
+    "static/media/empty.svg": "/static/media/empty.27b1b061.svg",
+    "static/media/font-awesome.min.css": "/static/media/fontawesome-webfont.fee66e71.woff",
+    "static/media/header.svg": "/static/media/header.d216e9a6.svg"
+  }
+}

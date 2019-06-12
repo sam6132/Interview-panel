@@ -6,6 +6,7 @@ const helmet = require('helmet')
 var app = express();
 
 app.use(express.json())
+app.use(express.static('./public'))
 
 app.use(express.json({ limit: '300kb' }))
 app.use(cors())

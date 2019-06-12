@@ -10,7 +10,6 @@ const questions = require('./routes/questions');
 
 require('./includes/db');
 
-
 app.use("/api/user", user)
 app.use("/api/candidate", candidate)
 app.use("/api/token", token)
