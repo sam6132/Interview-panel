@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">traxit</string>
-    <string name="title_activity_main">traxit</string>
-    <string name="package_name">com.traxit.panel</string>
-    <string name="fileprovider_authority">com.traxit.panel.fileprovider</string>
-    <string name="custom_url_scheme">com.traxit.panel</string>
-</resources>

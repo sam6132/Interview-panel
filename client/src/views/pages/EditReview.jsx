@@ -35,7 +35,7 @@ export default class EditReview extends Component {
 
     axios
       .post(
-        `http://192.168.0.160:5000/api/candidate/editReview/${
+        `http://206.189.235.9:5000/api/candidate/editReview/${
           this.props.match.params.r_id
         }`,
         candidate,
