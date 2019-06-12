@@ -10,11 +10,13 @@ router.get('/', async (req, res) => {
     const teams = await Team.find()
     res.send(teams);
 })
+//return team which matches team id as parameter
 router.get('/members/:t_id', async (req, res) => {
     const team = await Team.findOne({ _id: req.params.t_id })
     if (!team) return res.status(400).send("Team not found")
     res.send(team);
 })
+
 router.post('/createTeam', async (req, res) => {
 
     // now decreare a constble 
@@ -26,7 +28,15 @@ router.post('/createTeam', async (req, res) => {
     let lead_mailID = req.body.team_lead.email
     // console.log(lead_mailID);
     try {
-        sendMail(lead_mailID, team._id)
+
+        const mailOptions = {
+            from: 'sam@blockchainappfactory.com',
+            to: lead_mailID,
+            subject: 'Team is created under your guidence',
+            text: ' please add your team members to list',
+            html: `<p>Click <a href="http://192.168.0.160:3000/">here</a> Activate account</p>`
+        };
+        sendMail(mailOptions)
 
         await team.save()
         res.send("mail send to person")
@@ -59,6 +69,22 @@ router.post('/addTeamMembers/:id', async (req, res) => {
             err: err.message
         });
     }
+})
+
+router.get('/getTeamMail/:t_id', async (req, res) => {
+    const team = await Team.findOne({ _id: req.params.t_id })
+    const mailIds = [];
+    for (let member of team.members) {
+        mailIds.push(member.email)
+    }
+    const mailOptions = {
+        from: 'sam@blockchainappfactory.com',
+        to: mailIds,
+        subject: 'Interview process',
+        text: 'A new Candidate is needed to be interviewed',
+    };
+    sendMail(mailOptions)
+    res.send(mailIds)
 })
 
 

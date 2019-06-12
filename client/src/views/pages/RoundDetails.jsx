@@ -34,7 +34,6 @@ export default class RoundDetailTable extends Component {
   }
 
   getReview = async () => {
-   
     await getRoundDetailsByCandidateId(this.props.match.params.id)
       .then(response => {
         console.log(response.data);
@@ -45,7 +44,6 @@ export default class RoundDetailTable extends Component {
       });
     // this.getTeamMembers();
   };
- 
 
   render() {
     return (
@@ -53,11 +51,11 @@ export default class RoundDetailTable extends Component {
         title="Rounds List"
         columns={this.state.columns}
         data={this.state.rounddetails}
-        onRowClick={(e, data) => {
-          this.props.history.push(
-            `/review/${this.props.match.params.id}&${data._id}`
-          );
-        }}
+        // onRowClick={(e, data) => {
+        //   this.props.history.push(
+        //     `/review/${this.props.match.params.id}&${data._id}`
+        //   );
+        // }}
         editable={{
           onRowAdd: newData =>
             new Promise(resolve => {

@@ -1,76 +1,99 @@
 .header {
-	height: 60px;
+  height: 60px;
 }
 
 .svg {
-	width: 50%;
+  width: 50%;
 }
 .can-table {
-	min-height: 30% !important;
+  min-height: 30% !important;
 }
 
 .info-model {
-	padding: 0;
-	padding-right: 5px;
-	padding-left: 5px;
+  padding: 0;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 .loader-container {
-	position: absolute;
-	top: 30% !important;
+  position: absolute;
+  top: 30% !important;
 
-	left: 40%;
+  left: 40%;
 }
 
 .loader {
-	border: 16px solid #f3f3f3;
-	border-radius: 50%;
-	border-top: 16px solid blue;
-	border-bottom: 16px solid blue;
-	top: 50%;
-	width: 120px;
-	height: 120px;
-	-webkit-animation: spin 2s linear infinite;
-	animation: spin 2s linear infinite;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-bottom: 16px solid blue;
+  top: 50%;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
 }
 
 @-webkit-keyframes spin {
-	0% {
-		-webkit-transform: rotate(0deg);
-	}
-	100% {
-		-webkit-transform: rotate(360deg);
-	}
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-.candidate-table {
-	z-index: 10000 !important;
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .bold {
-	font-weight: 600;
+  font-weight: 600;
 }
 
 .rdt_TableHeadRow {
-	font-size: 34px;
-	font-weight: 900px;
+  font-size: 34px;
+  font-weight: 900px;
 }
 
-.candidate-detail {
-	height: 500px !important;
+/* .candidate-detail {
+  height: 100% !important;
 }
 
 .review-card {
-	position: absolute !important;
-	top: 45%;
-	/* padding-left: 9px; */
-	width: 80% !important;
+  position: absolute !important;
+  top: 45%;
+  width: 80% !important;
+} */
+
+.full-height {
+  height: calc(100vh - 5em);
+  /* height: 100%; */
+  /* width: calc(100hw - 2em); */
+}
+
+.list-group {
+  width: 100%;
+}
+.editor {
+  width: 100%;
+}
+
+.header {
+  z-index: 1000;
+}
+.svg {
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+  width: 50%;
+}
+
+.scrollable {
+  height: 100%;
+  overflow-y: scroll;
 }

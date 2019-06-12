@@ -37,7 +37,7 @@ export default class CreateTeam extends Component {
     }
 
     axios
-      .post("http://localhost:5000/api/team/createTeam/", team, {
+      .post("http://192.168.0.160:5000/api/team/createTeam/", team, {
         headers: { "x-auth": localStorage.getItem("token") }
       })
       .then(res => {
@@ -65,7 +65,7 @@ export default class CreateTeam extends Component {
       <div>
         <div className="d-flex justify-content-end ">
           <button
-            className="btn btn-primary  mb-sm"
+            className="btn btn-primary "
             onClick={e => {
               this.toggleModel("createTeam");
             }}

@@ -19,6 +19,10 @@ const userShema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    team: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
     activated: {
         type: Boolean,
         default: false
@@ -62,7 +66,8 @@ function validate(user) {
             .max(50)
             .required(),
         role: Joi.string()
-            .required()
+            .required(),
+        team: Joi.required()
     };
 
     return Joi.validate(user, schema);

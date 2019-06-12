@@ -1,7 +1,7 @@
 var assert = require('assert');
 const expect = require("chai").expect;
 const axios = require('axios')
-const URI = 'http://localhost:5000/api/user';
+const URI = 'http://192.168.0.160:5000/api/user';
 const chai = require('chai')
 let should = chai.should();
 const { users } = require('../models/user.model');

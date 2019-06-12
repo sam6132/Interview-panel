@@ -1,0 +1,7 @@
+{
+  "name": "traxit",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

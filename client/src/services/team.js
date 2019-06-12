@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const URI = 'http://localhost:5000/api/team';
+const URI = 'http://192.168.0.160:5000/api/team';
 
 
 export const getTeams = async () => {
@@ -11,7 +11,9 @@ export const getTeams = async () => {
 
 }
 
-export const getTeamMembers = async (t_id) => {
+
+
+export const getTeamsByTeamId = async (t_id) => {
     return axios.get(`${URI}/members/${t_id}`, {
         headers: { 'x-auth': localStorage.getItem('token') }
     })
