@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Login from "views/pages/Login.jsx";
 import Register from "views/pages/Register.jsx";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Switch } from "react-router-dom";
 import Profile from "views/pages/Profile";
 import Detail from "views/pages/Detail";
 import EditReview from "views/pages/EditReview";
@@ -13,11 +13,10 @@ import PublicRoute from "components/routes/PublicRoute";
 import TeamMember from "views/pages/TeamMembers";
 import Teams from "views/pages/Teams";
 import Questions from "views/pages/Questions";
-
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <Nav props={this.props} />
         <Switch>
           <PublicRoute path="/" exact component={Login} />
@@ -45,7 +44,7 @@ class App extends Component {
           {/* <Route path="/edit/:id" excat render={props => <Edit {...props} />} /> */}
           {/* <PublicRoute path="/CandidateProfile" exact component={CandidateP}/> */}
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
