@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const { MAIL_ID, PASSWORD, HOST } = require('../config')
 
 mongoose.set('useCreateIndex', true);
 
@@ -13,7 +14,7 @@ const TokenShema = new mongoose.Schema({
 const Token = mongoose.model('Token', TokenShema);
 
 
-async function sendMail(host, user) {
+async function sendMail(user) {
     const token = await new Token({
         _userId: user._id,
         token: crypto.randomBytes(16).toString('hex')
@@ -22,16 +23,16 @@ async function sendMail(host, user) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'sam@blockchainappfactory.com',
-            pass: 'Josh@12345'
+            user: MAIL_ID,
+            pass: PASSWORD
         }
     });
 
     const mailOptions = {
-        from: 'sam@blockchainappfactory.com', // sender address
+        from: MAIL_ID, // sender address
         to: user.email, // list of receivers
         subject: `Account Verification Token', ${user.email}`,
-        html: `<p>Click <a href="http://${host}/api/token/confirmation/${token.token}">here</a> Activate account</p>`
+        html: `<p>Click <a href="${HOST}/api/token/confirmation/${token.token}">here</a> Activate account</p>`
     };
 
 

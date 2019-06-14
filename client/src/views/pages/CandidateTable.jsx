@@ -6,7 +6,6 @@ import { addCandidate } from "services/candidate";
 import { editCandidateById } from "services/candidate";
 import { deleteCandidateById } from "services/candidate";
 import { getTeams } from "services/team";
-import { getTeamMembers } from "services/team";
 
 export default class CandidateTable extends Component {
   state = {
@@ -70,7 +69,13 @@ export default class CandidateTable extends Component {
   };
 
   navEdit = (e, data) => {
-    this.props.history.push(`/detail/${data._id}`, data);
+    console.log(data);
+
+    this.props.history.push({
+      pathname: `/detail/${data._id}`,
+      hash: "#hash",
+      state: { data }
+    });
   };
 
   render() {
@@ -100,6 +105,7 @@ export default class CandidateTable extends Component {
                   })
                   .catch(error => {
                     this.setState({ msg: error.message });
+                    alert(this.state.msg);
                   });
               }, 600);
             }),

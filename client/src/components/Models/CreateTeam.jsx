@@ -1,6 +1,7 @@
 import React, { PureComponent, Component } from "react";
 import { Button, Modal, Alert } from "reactstrap";
 import axios from "axios";
+import { createTeam } from "services/team";
 
 export default class CreateTeam extends Component {
   state = {
@@ -36,10 +37,7 @@ export default class CreateTeam extends Component {
       });
     }
 
-    axios
-      .post("http://206.189.235.9:5000/api/team/createTeam/", team, {
-        headers: { "x-auth": localStorage.getItem("token") }
-      })
+    createTeam(team)
       .then(res => {
         let data = res["data"];
         this.setState({

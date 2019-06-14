@@ -34,7 +34,7 @@ router.post('/createTeam', async (req, res) => {
             to: lead_mailID,
             subject: 'Team is created under your guidence',
             text: ' please add your team members to list',
-            html: `<p>Click <a href="http://192.168.0.160:3000/">here</a> Activate account</p>`
+            html: `<p>Click <a href="http://206.189.235.9:5000/">here</a> Activate account</p>`
         };
         sendMail(mailOptions)
 

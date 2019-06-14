@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import CandidateTable from "./CandidateTable";
 
-import TableRow from "./TableRow";
 import Header from "components/Navbars/Nav";
 
 import "assets/css/style.css";
-import Create from "./Create";
-import EditableTable from "./EditableTable";
 import CreateTeam from "components/Models/CreateTeam";
 // import MaterialTable from './MaterialTable';
 export default class Profile extends Component {
@@ -54,7 +51,10 @@ export default class Profile extends Component {
                     <button
                       className="btn btn-primary"
                       onClick={() => {
-                        this.props.history.push("/questions");
+                        this.props.history.push({
+                          pathname: `questions`,
+                          hash: "#hash"
+                        });
                       }}
                     >
                       Questions

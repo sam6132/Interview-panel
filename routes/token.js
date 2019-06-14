@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { HOST } = require('../config')
 const { users } = require('../models/user.model');
 const { Token } = require('../models/token.model');
 const _ = require('lodash');
@@ -25,7 +26,7 @@ router.get('/confirmation/:token', async (req, res) => {
 
     user.activated = true;
     await user.save();
-    res.redirect('http://192.168.0.160')
+    res.redirect(HOST)
     res.json({
         success: true,
         email: req.body.email,

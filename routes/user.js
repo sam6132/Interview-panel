@@ -115,7 +115,7 @@ router.post('/register', async (req, res) => {
         .then(async result => {
 
 
-            sendMail(req.headers.host, user)
+            sendMail(user)
             res.json({
                 success: true,
                 user: _.pick(result, ['role', 'email', 'activated']),

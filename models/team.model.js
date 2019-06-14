@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
+const { MAIL_ID, PASSWORD } = require('../config')
 
 const teamShema = new mongoose.Schema({
     name: {
@@ -22,8 +23,8 @@ function sendMail(mailOptions) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'sam@blockchainappfactory.com',
-            pass: 'Josh@12345'
+            user: MAIL_ID,
+            pass: PASSWORD
         }
 
     });
