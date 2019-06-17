@@ -30,7 +30,7 @@ export default class Detail extends Component {
           </div>
         </div>
         <div className="row full-height ">
-          <div className="col-lg-3 col-sm-12 bg-light text-dark p-0 order-lg-1 ">
+          <div className="col-lg-3 col-sm-12 bg-light text-dark p-0 shadow order-lg-1 ">
             <SideBar className="" candidate={this.state.candidate} />
           </div>
           <div className="col-lg-8 p-0 mx-auto ml-0 mt-sm order-lg-2">

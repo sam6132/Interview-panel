@@ -11,12 +11,22 @@ export default class CandidateTable extends Component {
   state = {
     candidates: [],
     columns: [
+      { title: "Recruiter", field: "recruiter" },
+
       { title: "Name", field: "name" },
       { title: "Email", field: "email" },
       { title: "Number", field: "number", type: "numeric" },
-      // { title: "Team Member", field: "team_member", lookup: {} },
-      { title: "Status", field: "status" }
-      // { title: "Team", field: "team", lookup: this.getTeams() }
+      {
+        title: "Status",
+        field: "status",
+        lookup: {
+          sheduled: "Sheduled",
+          not_appiered: "Not Appiered ",
+          not_interested: "Not Interested ",
+          resheduled: "Resheduled"
+        }
+      },
+      { title: "Date", field: "date", type: "date" }
     ]
   };
 

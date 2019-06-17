@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const URI = 'http://localhost:5000/api/team';
+const URI = 'http://206.189.235.9:5000/api/team';
 
 
 export const getTeams = async () => {

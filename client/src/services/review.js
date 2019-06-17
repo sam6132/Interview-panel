@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const URI = 'http://localhost:5000/api/candidate';
+const URI = 'http://206.189.235.9:5000/api/candidate';
 
 
 export const addReview = async (c_id, review) => {

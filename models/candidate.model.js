@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const CandidateShema = new mongoose.Schema({
+    recruiter: { type: String },
     name: { type: String, required: true },
     email: { type: String, required: true },
     number: { type: String, required: true },
@@ -13,7 +14,10 @@ const CandidateShema = new mongoose.Schema({
     team: {
         type: mongoose.Schema.Types.ObjectId
     },
-    skills: [String]
+    skills: [String],
+    date: {
+        type: Date
+    }
 
 })
 

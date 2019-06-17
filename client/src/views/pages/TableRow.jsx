@@ -61,7 +61,7 @@ class TableRow extends Component {
 
   delete = id => {
     axios
-      .get("http://localhost:5000/api/candidate/delete/" + id, {
+      .get("http://206.189.235.9:5000/api/candidate/delete/" + id, {
         headers: { "x-auth": localStorage.getItem("token") }
       })
       .then(res => {
