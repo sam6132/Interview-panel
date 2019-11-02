@@ -40,7 +40,7 @@
 		"lodash": "^4.17.11",
 		"material-table": "^1.39.0",
 		"material-ui": "^0.20.2",
-		"mongoose": "^5.5.10",
+		"mongoose": "^5.7.5",
 		"node-device-detector": "^1.1.4",
 		"nodemailer": "^6.2.1",
 		"nodemailer-express-handlebars": "^3.0.0",
